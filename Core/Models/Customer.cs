@@ -9,14 +9,6 @@ namespace ProductSale.Core.Models
         public string Name { get; set; }
         public string Phone { get; set; }
         public string Register { get; set; }
-        public List<Order>? Orders { get; set; }
-
-        public Customer(string name, string phone, string register, List<Order> orders = null)
-        {
-            Name = name;
-            Phone = phone;
-            Register = register;
-            Orders = orders;
-        }
+        public ICollection<Order> Orders { get; set; }
     }
 }

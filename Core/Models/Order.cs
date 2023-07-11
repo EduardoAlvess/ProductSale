@@ -1,5 +1,6 @@
 ﻿using ProductSale.Core.Enums;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProductSale.Core.Models
 {
@@ -11,14 +12,6 @@ namespace ProductSale.Core.Models
         public double Amount { get; set; }
         public double Profit { get; set; }
         public int CustomerId { get; set; }
-        public List<Product> Products { get; set; }
-
-        public Order(double amount, double profit, int customerId, List<Product> products)
-        {
-            Amount = amount;
-            Profit = profit;
-            Products = products;
-            CustomerId = customerId;
-        }
+        public ICollection<Product> Products { get; set; }
     }
 }

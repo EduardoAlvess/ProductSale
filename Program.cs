@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using ProductSale.Infra.DB;
+
 namespace ProductSale
 {
     public class Program
@@ -12,6 +15,10 @@ namespace ProductSale
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddDbContext<DataContext>(dbContextOptions =>
+            dbContextOptions.UseMySql("Server=mysql744.umbler.com;Port=41890;Database=testeeduardo;Uid=testeeduardo123;Pwd=testeeduardo12345;", new MySqlServerVersion(new Version(5, 6, 0)))
+                            .EnableSensitiveDataLogging()
+                            .EnableDetailedErrors());
 
             var app = builder.Build();
 
