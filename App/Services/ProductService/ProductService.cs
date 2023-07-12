@@ -1,6 +1,7 @@
 ﻿using ProductSale.DTOs.Product;
 using ProductSale.Infra.DB;
 using ProductSale.Core.Models;
+using ProductSale.Core.Exceptions.ProductExceptions;
 
 namespace ProductSale.App.Services.ProductService
 {
@@ -25,11 +26,24 @@ namespace ProductSale.App.Services.ProductService
             };
 
             _db.Products.Add(product);
+
+            _db.Save();
         }
 
-        public void DeleteProduct(InputProductDto inputProductDto)
+        public void DeleteProduct(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var product = _db.Products.Single(p => p.Id == id);
+
+                product.isDeleted = true;
+
+                _db.Save();
+            }
+            catch(InvalidOperationException ex)
+            {
+                throw new ProductNotFoundException("Can't find a product with this id");
+            }
         }
 
         public List<OutputProductDto> GetAllProducts()

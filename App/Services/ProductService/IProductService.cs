@@ -6,7 +6,7 @@ namespace ProductSale.App.Services.ProductService
     {
         void CreateProduct(InputProductDto inputProductDto);
         void UpdateProduct(InputProductDto inputProductDto);
-        void DeleteProduct(InputProductDto inputProductDto);
+        void DeleteProduct(int id);
         List<OutputProductDto> GetAllProducts();
         OutputProductDto GetProductById(int id);
     }

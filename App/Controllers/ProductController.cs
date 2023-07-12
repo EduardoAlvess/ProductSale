@@ -20,5 +20,11 @@ namespace ProductSale.App.Controllers
         {
             _productService.CreateProduct(productDto);
         }
+
+        [HttpDelete("{productId}")]
+        public void Delete(int productId)
+        {
+            _productService.DeleteProduct(productId);
+        }
     }
 }
