@@ -48,7 +48,25 @@ namespace ProductSale.App.Services.ProductService
 
         public List<OutputProductDto> GetAllProducts()
         {
-            throw new NotImplementedException();
+            List<OutputProductDto> productDtos = new();
+
+            List<Product> products = _db.Products.ToList();
+
+            foreach(var product in products)
+            {
+                OutputProductDto productDto = new()
+                {
+                    Name = product.Name,
+                    Value = product.Value,
+                    Description = product.Description,
+                    AmountInStock = product.AmountInStock,
+                    ProductionCost = product.ProductionCost
+                };
+
+                productDtos.Add(productDto);
+            }
+
+            return productDtos;
         }
 
         public OutputProductDto GetProductById(int id)

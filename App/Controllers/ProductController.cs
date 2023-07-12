@@ -16,24 +16,15 @@ namespace ProductSale.App.Controllers
         }
 
         [HttpPost]
-        public void Create(InputProductDto productDto)
-        {
-            _productService.CreateProduct(productDto);
-        }
+        public void Create(InputProductDto productDto) => _productService.CreateProduct(productDto);
 
         [HttpDelete("{productId}")]
-        public void Delete(int productId)
-        {
-            _productService.DeleteProduct(productId);
-        }
-
+        public void Delete(int productId) => _productService.DeleteProduct(productId);
 
         [HttpGet("{productId}")]
-        public OutputProductDto GetById(int productId)
-        {
-            var product = _productService.GetProductById(productId);
+        public OutputProductDto GetById(int productId) => _productService.GetProductById(productId);
 
-            return product;
-        }
+        [HttpGet]
+        public List<OutputProductDto> Get() => _productService.GetAllProducts();
     }
 }
