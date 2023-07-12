@@ -13,5 +13,10 @@ namespace ProductSale.Infra.DB
                 : base(options)
         {
         }
+
+        public void Save()
+        {
+            SaveChanges();
+        }
     }
 }
