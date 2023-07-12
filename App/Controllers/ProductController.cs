@@ -26,5 +26,14 @@ namespace ProductSale.App.Controllers
         {
             _productService.DeleteProduct(productId);
         }
+
+
+        [HttpGet("{productId}")]
+        public OutputProductDto GetById(int productId)
+        {
+            var product = _productService.GetProductById(productId);
+
+            return product;
+        }
     }
 }

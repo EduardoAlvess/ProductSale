@@ -34,7 +34,7 @@ namespace ProductSale.App.Services.ProductService
         {
             try
             {
-                var product = _db.Products.Single(p => p.Id == id);
+                Product product = _db.Products.Single(p => p.Id == id);
 
                 product.isDeleted = true;
 
@@ -53,7 +53,25 @@ namespace ProductSale.App.Services.ProductService
 
         public OutputProductDto GetProductById(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                Product product = _db.Products.Single(p => p.Id == id);
+
+                OutputProductDto productDto = new()
+                {
+                    Name = product.Name,
+                    Value = product.Value,
+                    Description = product.Description,
+                    AmountInStock = product.AmountInStock,
+                    ProductionCost = product.ProductionCost
+                };
+
+                return productDto;
+            }
+            catch (InvalidOperationException ex)
+            {
+                throw new ProductNotFoundException("Can't find a product with this id");
+            }
         }
 
         public void UpdateProduct(InputProductDto inputProductDto)
