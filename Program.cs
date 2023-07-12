@@ -1,4 +1,8 @@
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
+using ProductSale.App.Services.ProductService;
+using ProductSale.DTOs.Product;
 using ProductSale.Infra.DB;
 
 namespace ProductSale
@@ -11,14 +15,19 @@ namespace ProductSale
 
             // Add services to the container.
 
-            builder.Services.AddControllers();
+            builder.Services.AddControllers()
+                .AddFluentValidation(v => v.RegisterValidatorsFromAssemblyContaining<InputProductDto>());
+            
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-            builder.Services.AddDbContext<DataContext>(dbContextOptions =>
+
+            builder.Services.AddDbContext<IDbContext, DataContext>(dbContextOptions =>
             dbContextOptions.UseMySql("Server=mysql744.umbler.com;Port=41890;Database=testeeduardo;Uid=testeeduardo123;Pwd=testeeduardo12345;", new MySqlServerVersion(new Version(5, 6, 0)))
                             .EnableSensitiveDataLogging()
                             .EnableDetailedErrors());
+
+            builder.Services.AddScoped<IProductService, ProductService>();
 
             var app = builder.Build();
 

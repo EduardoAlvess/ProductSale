@@ -3,7 +3,7 @@ using ProductSale.Core.Models;
 
 namespace ProductSale.Infra.DB
 {
-    public class DataContext : DbContext
+    public class DataContext : DbContext, IDbContext
     {
         public DbSet<Order> Orders { get; set; }
         public DbSet<Product> Products { get; set; }
