@@ -22,9 +22,6 @@ namespace ProductSale.App.Controllers
         [HttpGet("{orderId}")]
         public OutputOrderDto GetById(int orderId) => _orderService.GetOrderById(orderId);
 
-        [HttpGet]
-        public List<OutputOrderDto> Get() => _orderService.GetAllOrders();
-
         [HttpPatch("{orderId}")]
         public void Update(int orderId, [FromBody] JsonPatchDocument order) => _orderService.UpdateOrder(orderId, order);
     }

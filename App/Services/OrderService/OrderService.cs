@@ -60,30 +60,6 @@ namespace ProductSale.App.Services.OrderService
             return profit;
         }
 
-        public List<OutputOrderDto> GetAllOrders()
-        {
-            List<OutputOrderDto> orderDtos = new();
-
-            List<Order> orders = _db.Orders.ToList();
-
-            //foreach (var order in orders)
-            //{
-            //    List<Order> order = _db.Orders.Where(o => o.CustomerId == order.Id).ToList();
-
-            //    OutputOrderDto orderDto = new()
-            //    {
-            //        Name = order.Name,
-            //        Phone = order.Phone,
-            //        Register = order.Register,
-            //        Orders = order
-            //    };
-
-            //    orderDtos.Add(orderDto);
-            //}
-
-            return orderDtos;
-        }
-
         public OutputOrderDto GetOrderById(int id)
         {
             try
