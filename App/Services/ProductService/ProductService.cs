@@ -2,6 +2,7 @@
 using ProductSale.Infra.DB;
 using ProductSale.Core.Models;
 using ProductSale.Core.Exceptions.ProductExceptions;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace ProductSale.App.Services.ProductService
 {
@@ -92,9 +93,23 @@ namespace ProductSale.App.Services.ProductService
             }
         }
 
-        public void UpdateProduct(InputProductDto inputProductDto)
+        public void UpdateProduct(int id, JsonPatchDocument inputProduct)
         {
-            throw new NotImplementedException();
+            foreach(var operation in inputProduct.Operations)
+            {
+                if(String.IsNullOrEmpty(operation.op))
+                    throw new ProductUpdateOperationRequiredException("Operation is required");
+                if(String.IsNullOrEmpty(operation.path))
+                    throw new ProductUpdatePathRequiredException("Path is required");
+                if (String.IsNullOrEmpty(operation.value.ToString()))
+                    throw new ProductUpdateValueRequiredException("Value is required");
+            }
+
+            Product product = _db.Products.Single(p => p.Id == id);
+
+            inputProduct.ApplyTo(product);
+
+            _db.Save();
         }
     }
 }

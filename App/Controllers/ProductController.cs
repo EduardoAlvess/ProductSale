@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ProductSale.App.Services.ProductService;
 using ProductSale.DTOs.Product;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace ProductSale.App.Controllers
 {
@@ -26,5 +27,8 @@ namespace ProductSale.App.Controllers
 
         [HttpGet]
         public List<OutputProductDto> Get() => _productService.GetAllProducts();
+
+        [HttpPatch("{productId}")]
+        public void Update(int productId, [FromBody] JsonPatchDocument product) => _productService.UpdateProduct(productId, product);
     }
 }

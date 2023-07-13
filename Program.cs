@@ -16,6 +16,7 @@ namespace ProductSale
             // Add services to the container.
 
             builder.Services.AddControllers()
+                .AddNewtonsoftJson()
                 .AddFluentValidation(v => v.RegisterValidatorsFromAssemblyContaining<InputProductDto>());
             
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
