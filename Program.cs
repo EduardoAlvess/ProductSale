@@ -1,8 +1,8 @@
-using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
+using ProductSale.App.Services.CustomerService;
 using ProductSale.App.Services.ProductService;
-using ProductSale.DTOs.Product;
+using ProductSale.DTOs.Products;
 using ProductSale.Infra.DB;
 
 namespace ProductSale
@@ -29,6 +29,7 @@ namespace ProductSale
                             .EnableDetailedErrors());
 
             builder.Services.AddScoped<IProductService, ProductService>();
+            builder.Services.AddScoped<ICustomerService, CustomerService>();
 
             var app = builder.Build();
 
