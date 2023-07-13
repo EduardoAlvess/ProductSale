@@ -1,8 +1,8 @@
-﻿namespace ProductSale.Core.Exceptions.ProductExceptions
+﻿namespace ProductSale.Core.Exceptions
 {
-    public class ProductNotFoundException : Exception
+    public class UpdateOperationRequiredException : Exception
     {
-        public ProductNotFoundException(string message) : base(message)
+        public UpdateOperationRequiredException(string message) : base(message)
         {
 
         }

@@ -1,7 +1,7 @@
 ﻿using ProductSale.DTOs.Products;
 using ProductSale.Infra.DB;
 using ProductSale.Core.Models;
-using ProductSale.Core.Exceptions.ProductExceptions;
+using ProductSale.Core.Exceptions;
 using Microsoft.AspNetCore.JsonPatch;
 
 namespace ProductSale.App.Services.ProductService
@@ -43,7 +43,7 @@ namespace ProductSale.App.Services.ProductService
             }
             catch(InvalidOperationException ex)
             {
-                throw new ProductNotFoundException("Can't find a product with this id");
+                throw new NotFoundException("Can't find a product with this id");
             }
         }
 
@@ -89,7 +89,7 @@ namespace ProductSale.App.Services.ProductService
             }
             catch (InvalidOperationException ex)
             {
-                throw new ProductNotFoundException("Can't find a product with this id");
+                throw new NotFoundException("Can't find a product with this id");
             }
         }
 
@@ -98,11 +98,11 @@ namespace ProductSale.App.Services.ProductService
             foreach(var operation in inputProduct.Operations)
             {
                 if(String.IsNullOrEmpty(operation.op))
-                    throw new ProductUpdateOperationRequiredException("Operation is required");
+                    throw new UpdateOperationRequiredException("Operation is required");
                 if(String.IsNullOrEmpty(operation.path))
-                    throw new ProductUpdatePathRequiredException("Path is required");
+                    throw new UpdatePathRequiredException("Path is required");
                 if (String.IsNullOrEmpty(operation.value.ToString()))
-                    throw new ProductUpdateValueRequiredException("Value is required");
+                    throw new UpdateValueRequiredException("Value is required");
             }
 
             Product product = _db.Products.Single(p => p.Id == id);
