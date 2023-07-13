@@ -1,7 +1,9 @@
+using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using ProductSale.App.Services.CustomerService;
 using ProductSale.App.Services.ProductService;
+using ProductSale.DTOs.Customers;
 using ProductSale.DTOs.Products;
 using ProductSale.Infra.DB;
 
@@ -17,7 +19,7 @@ namespace ProductSale
 
             builder.Services.AddControllers()
                 .AddNewtonsoftJson()
-                .AddFluentValidation(v => v.RegisterValidatorsFromAssemblyContaining<InputProductDto>());
+                .AddFluentValidation();
             
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -27,6 +29,9 @@ namespace ProductSale
             dbContextOptions.UseMySql("Server=mysql744.umbler.com;Port=41890;Database=testeeduardo;Uid=testeeduardo123;Pwd=testeeduardo12345;", new MySqlServerVersion(new Version(5, 6, 0)))
                             .EnableSensitiveDataLogging()
                             .EnableDetailedErrors());
+
+            builder.Services.AddValidatorsFromAssemblyContaining<InputProductDto>();
+            builder.Services.AddValidatorsFromAssemblyContaining<InputCustomerDto>();
 
             builder.Services.AddScoped<IProductService, ProductService>();
             builder.Services.AddScoped<ICustomerService, CustomerService>();
