@@ -1,7 +1,7 @@
 ﻿using ProductSale.Core.Enums;
-using ProductSale.DTOs.Product;
+using ProductSale.DTOs.Products;
 
-namespace ProductSale.DTOs.Order
+namespace ProductSale.DTOs.Orders
 {
     public class InputOrderDto
     {

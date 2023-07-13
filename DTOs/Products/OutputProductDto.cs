@@ -1,4 +1,4 @@
-﻿namespace ProductSale.DTOs.Product
+﻿namespace ProductSale.DTOs.Products
 {
     public class OutputProductDto
     {
