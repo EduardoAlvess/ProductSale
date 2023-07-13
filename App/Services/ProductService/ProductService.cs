@@ -1,4 +1,4 @@
-﻿using ProductSale.DTOs.Product;
+﻿using ProductSale.DTOs.Products;
 using ProductSale.Infra.DB;
 using ProductSale.Core.Models;
 using ProductSale.Core.Exceptions.ProductExceptions;

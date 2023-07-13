@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.JsonPatch;
-using ProductSale.DTOs.Product;
+using ProductSale.DTOs.Products;
 
 namespace ProductSale.App.Services.ProductService
 {

@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using ProductSale.DTOs.Product;
+using ProductSale.DTOs.Products;
 
 namespace ProductSale.App.Validations
 {

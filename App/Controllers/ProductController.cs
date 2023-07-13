@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ProductSale.App.Services.ProductService;
-using ProductSale.DTOs.Product;
+using ProductSale.DTOs.Products;
 using Microsoft.AspNetCore.JsonPatch;
 
 namespace ProductSale.App.Controllers
