@@ -11,6 +11,6 @@ namespace ProductSale.Core.Models
         public double Amount { get; set; }
         public double Profit { get; set; }
         public int CustomerId { get; set; }
-        public ICollection<Product> Products { get; set; }
+        public ICollection<OrderProduct> OrderProducts { get; set; }
     }
 }

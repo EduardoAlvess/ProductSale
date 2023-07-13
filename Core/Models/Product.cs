@@ -12,6 +12,6 @@ namespace ProductSale.Core.Models
         public int AmountInStock { get; set; }
         public string Description { get; set; }
         public double ProductionCost { get; set; }
-        public ICollection<Order> Orders { get; set; }
+        public ICollection<OrderProduct> OrderProduct { get; set; }
     }
 }
