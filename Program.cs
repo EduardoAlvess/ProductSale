@@ -2,6 +2,7 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using ProductSale.App.Services.CustomerService;
+using ProductSale.App.Services.OrderService;
 using ProductSale.App.Services.ProductService;
 using ProductSale.DTOs.Customers;
 using ProductSale.DTOs.Products;
@@ -33,8 +34,10 @@ namespace ProductSale
             builder.Services.AddValidatorsFromAssemblyContaining<InputProductDto>();
             builder.Services.AddValidatorsFromAssemblyContaining<InputCustomerDto>();
 
+            builder.Services.AddScoped<IOrderService, OrderService>();
             builder.Services.AddScoped<IProductService, ProductService>();
             builder.Services.AddScoped<ICustomerService, CustomerService>();
+
 
             var app = builder.Build();
 

@@ -8,7 +8,7 @@ namespace ProductSale.DTOs.Orders
         public Stage Stage { get; set; }
         public double Amount { get; set; }
         public double Profit { get; set; }
-        public int CustomerId { get; set; }
+        public string CustomerName { get; set; }
         public ICollection<OutputProductDto> Products { get; set; }
     }
 }

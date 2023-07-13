@@ -1,5 +1,5 @@
 ﻿using ProductSale.Core.Enums;
-using ProductSale.DTOs.Products;
+using ProductSale.Core.Models;
 
 namespace ProductSale.DTOs.Orders
 {
@@ -7,8 +7,7 @@ namespace ProductSale.DTOs.Orders
     {
         public Stage Stage { get; set; }
         public double Amount { get; set; }
-        public double Profit { get; set; }
         public int CustomerId { get; set; }
-        public ICollection<OutputProductDto> Products { get; set; }
+        public ICollection<OrderProduct> OrderProducts { get; set; }
     }
 }
