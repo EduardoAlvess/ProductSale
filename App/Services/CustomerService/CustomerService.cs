@@ -38,12 +38,14 @@ namespace ProductSale.App.Services.ProductService
 
             foreach(var customer in customers)
             {
+                List<Order> order = _db.Orders.Where(o => o.CustomerId == customer.Id).ToList();
+
                 OutputCustomerDto customerDto = new()
                 {
                     Name = customer.Name,
                     Phone = customer.Phone,
                     Register = customer.Register,
-                    Orders = customer.Orders
+                    Orders = order
                 };
 
                 customerDtos.Add(customerDto);
