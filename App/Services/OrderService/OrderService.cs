@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.JsonPatch;
 using ProductSale.Core.Exceptions;
 using ProductSale.Core.Models;
+using ProductSale.DTOs.OrderProducts;
 using ProductSale.DTOs.Orders;
-using ProductSale.DTOs.Products;
 using ProductSale.Infra.DB;
 
 namespace ProductSale.App.Services.OrderService
@@ -66,7 +66,7 @@ namespace ProductSale.App.Services.OrderService
 
             List<Order> orders = _db.Orders.ToList();
 
-            //foreach(var order in orders)
+            //foreach (var order in orders)
             //{
             //    List<Order> order = _db.Orders.Where(o => o.CustomerId == order.Id).ToList();
 
@@ -90,31 +90,27 @@ namespace ProductSale.App.Services.OrderService
             {
                 Order order = _db.Orders.Single(p => p.Id == id);
 
-                string customerName = _db.Customers.First(c => c.Id == order.CustomerId).Name;
+                var orderProducts = _db.OrderProduct.Where(op => op.OrderId == order.Id).ToList();
 
-                List<OutputProductDto> productDtos = new();  
+                List<OutputOrderProductsDto> outputOrderProducts = new();
 
-                //foreach(var product in order.Products)
-                //{
-                //    OutputProductDto productDto = new()
-                //    {
-                //        Name = product.Name,
-                //        Value = product.Value,
-                //        Description = product.Description,
-                //        AmountInStock = product.AmountInStock,
-                //        ProductionCost = product.ProductionCost
-                //    };
-
-                //    productDtos.Add(productDto);
-                //}
+                foreach(var orderProduct in orderProducts)
+                {
+                    OutputOrderProductsDto outputOrderProduct = new()
+                    {
+                        ProductId = orderProduct.ProductId,
+                        Quantity = orderProduct.Quantity
+                    };
+                    outputOrderProducts.Add(outputOrderProduct);
+                }
 
                 OutputOrderDto orderDto = new()
                 {
                     Stage = order.Stage,
                     Amount = order.Amount,
                     Profit = order.Profit,
-                    Products = productDtos,
-                    CustomerName = customerName
+                    CustomerId = order.CustomerId,
+                    OrderProducts = outputOrderProducts
                 };
 
                 return orderDto;
