@@ -27,9 +27,21 @@ namespace ProductSale.App.Services.OrderService
                 Profit = CalculateOrderProfit(inputOrderDto.OrderProducts)
             };
 
+            RemoveStock(inputOrderDto.OrderProducts);
+
             _db.Orders.Add(order);
 
             _db.Save();
+        }
+
+        private void RemoveStock(ICollection<OrderProduct> orderProducts)
+        {
+            foreach (var orderProduct in orderProducts)
+            {
+                var product = _db.Products.First(p => p.Id == orderProduct.ProductId);
+
+                product.AmountInStock -= orderProduct.Quantity;
+            }
         }
 
         private double CalculateOrderProfit(ICollection<OrderProduct> orderProducts)
