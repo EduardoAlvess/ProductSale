@@ -26,7 +26,7 @@ namespace ProductSale.App.Services.OrderService
                 Amount = inputOrderDto.Amount,
                 CustomerId = inputOrderDto.CustomerId,
                 OrderProducts = inputOrderDto.OrderProducts,
-                Profit = CalculateOrderProfit(inputOrderDto.OrderProducts)
+                Profit = CalculateOrderProfit(inputOrderDto.Amount, inputOrderDto.OrderProducts)
             };
 
             RemoveStock(inputOrderDto.OrderProducts);
@@ -35,7 +35,6 @@ namespace ProductSale.App.Services.OrderService
 
             _db.Save();
         }
-
 
         public OutputOrderDto GetOrderById(int id)
         {
@@ -104,17 +103,17 @@ namespace ProductSale.App.Services.OrderService
             }
         }
 
-        private double CalculateOrderProfit(ICollection<OrderProduct> orderProducts)
+        private double CalculateOrderProfit(double amount, ICollection<OrderProduct> orderProducts)
         {
-            double profit = 0;
+            double profit = amount;
 
             foreach (var orderProduct in orderProducts)
             {
-                var product = _db.Products.First(o => o.Id == orderProduct.ProductId);
+                var productionCost = _db.Products.First(o => o.Id == orderProduct.ProductId).ProductionCost;
 
-                double productProfit = (product.Value - product.ProductionCost) * orderProduct.Quantity;
+                double totalProductCost = productionCost * orderProduct.Quantity;
 
-                profit += productProfit;
+                profit -= totalProductCost;
             }
 
             return profit;
