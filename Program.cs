@@ -6,6 +6,7 @@ using ProductSale.App.Services.CustomerService;
 using ProductSale.App.Services.OrderService;
 using ProductSale.App.Services.ProductService;
 using ProductSale.DTOs.Customers;
+using ProductSale.DTOs.Orders;
 using ProductSale.DTOs.Products;
 using ProductSale.Infra.DB;
 
@@ -32,6 +33,7 @@ namespace ProductSale
                             .EnableSensitiveDataLogging()
                             .EnableDetailedErrors());
 
+            builder.Services.AddValidatorsFromAssemblyContaining<InputOrderDto>();
             builder.Services.AddValidatorsFromAssemblyContaining<InputProductDto>();
             builder.Services.AddValidatorsFromAssemblyContaining<InputCustomerDto>();
             builder.Services.AddValidatorsFromAssemblyContaining<JsonPatchDocument>();
