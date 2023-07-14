@@ -80,16 +80,6 @@ namespace ProductSale.App.Services.ProductService
 
         public void UpdateCustomer(int id, JsonPatchDocument inputCustomer)
         {
-            foreach(var operation in inputCustomer.Operations)
-            {
-                if(String.IsNullOrEmpty(operation.op))
-                    throw new UpdateOperationRequiredException("Operation is required");
-                if(String.IsNullOrEmpty(operation.path))
-                    throw new UpdatePathRequiredException("Path is required");
-                if (String.IsNullOrEmpty(operation.value.ToString()))
-                    throw new UpdateValueRequiredException("Value is required");
-            }
-
             Customer customer = _db.Customers.Single(p => p.Id == id);
 
             inputCustomer.ApplyTo(customer);

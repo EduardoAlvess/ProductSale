@@ -95,16 +95,6 @@ namespace ProductSale.App.Services.ProductService
 
         public void UpdateProduct(int id, JsonPatchDocument inputProduct)
         {
-            foreach(var operation in inputProduct.Operations)
-            {
-                if(String.IsNullOrEmpty(operation.op))
-                    throw new UpdateOperationRequiredException("Operation is required");
-                if(String.IsNullOrEmpty(operation.path))
-                    throw new UpdatePathRequiredException("Path is required");
-                if (String.IsNullOrEmpty(operation.value.ToString()))
-                    throw new UpdateValueRequiredException("Value is required");
-            }
-
             Product product = _db.Products.Single(p => p.Id == id);
 
             inputProduct.ApplyTo(product);
