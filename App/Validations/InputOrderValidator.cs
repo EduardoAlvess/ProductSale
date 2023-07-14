@@ -22,6 +22,10 @@ namespace ProductSale.App.Validations
                 .GreaterThanOrEqualTo(0)
                     .WithMessage("Amount must not be less than 0");
 
+            RuleFor(m => m.CustomerId)
+                .Must(DoesUserExist)
+                    .WithMessage("User don't exist");
+
             RuleForEach(m => m.OrderProducts).ChildRules(c =>
             {
                 c.RuleFor(x => x.Quantity)
@@ -35,9 +39,6 @@ namespace ProductSale.App.Validations
                         .WithMessage("The product don't exist");
             });
 
-            RuleFor(m => m.CustomerId)
-                .Must(DoesUserExist)
-                    .WithMessage("User don't exist");
         }
 
         private bool DoesProductExist(int productId)
