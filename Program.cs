@@ -29,7 +29,7 @@ namespace ProductSale
             builder.Services.AddSwaggerGen();
 
             builder.Services.AddDbContext<IDbContext, DataContext>(dbContextOptions =>
-            dbContextOptions.UseMySql("Server=mysql744.umbler.com;Port=41890;Database=testeeduardo;Uid=testeeduardo123;Pwd=testeeduardo12345;", new MySqlServerVersion(new Version(5, 6, 0)))
+            dbContextOptions.UseMySql("Server=db;Port=3306;Database=productsale;Uid=productsale;Pwd=productsale;", new MySqlServerVersion(new Version(5, 6, 0)))
                             .EnableSensitiveDataLogging()
                             .EnableDetailedErrors());
 
@@ -41,7 +41,6 @@ namespace ProductSale
             builder.Services.AddScoped<IOrderService, OrderService>();
             builder.Services.AddScoped<IProductService, ProductService>();
             builder.Services.AddScoped<ICustomerService, CustomerService>();
-
 
             var app = builder.Build();
 
