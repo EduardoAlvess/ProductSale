@@ -1,8 +1,6 @@
 ﻿using FluentValidation;
-using ProductSale.Core.Models;
-using ProductSale.DTOs.Orders;
 using ProductSale.Infra.DB;
-using System.Linq;
+using ProductSale.DTOs.Orders;
 
 namespace ProductSale.App.Validations
 {
