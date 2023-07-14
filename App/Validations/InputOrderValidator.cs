@@ -12,8 +12,6 @@ namespace ProductSale.App.Validations
 
         public InputOrderValidator(IDbContext db)
         {
-            _db = db;
-
             RuleFor(m => m.Stage)
                 .NotNull()
                     .WithMessage("Stage must not be null")
