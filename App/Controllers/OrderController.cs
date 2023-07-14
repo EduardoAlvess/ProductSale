@@ -24,5 +24,8 @@ namespace ProductSale.App.Controllers
 
         [HttpPatch("{orderId}")]
         public void Update(int orderId, [FromBody] JsonPatchDocument order) => _orderService.UpdateOrder(orderId, order);
+
+        [HttpPatch("{orderId}/product/{productId}")]
+        public void UpdateOrderProducts(int orderId, int productId, [FromBody] JsonPatchDocument orderProduct) => _orderService.UpdateOrderProducts(orderId, productId, orderProduct);
     }
 }

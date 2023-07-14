@@ -7,6 +7,7 @@ namespace ProductSale.App.Services.OrderService
     {
         void CreateOrder(InputOrderDto inputOrderDto);
         void UpdateOrder(int id, JsonPatchDocument order);
+        void UpdateOrderProducts(int orderId, int productId, JsonPatchDocument orderProduct);
         OutputOrderDto GetOrderById(int id);
     }
 }

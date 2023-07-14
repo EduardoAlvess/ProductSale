@@ -115,5 +115,24 @@ namespace ProductSale.App.Services.OrderService
 
             _db.Save();
         }
+
+        public void UpdateOrderProducts(int orderId, int productId, JsonPatchDocument orderProducts)
+        {
+            foreach (var operation in orderProducts.Operations)
+            {
+                if (String.IsNullOrEmpty(operation.op))
+                    throw new UpdateOperationRequiredException("Operation is required");
+                if (String.IsNullOrEmpty(operation.path))
+                    throw new UpdatePathRequiredException("Path is required");
+                if (String.IsNullOrEmpty(operation.value.ToString()))
+                    throw new UpdateValueRequiredException("Value is required");
+            }
+
+            OrderProduct orderProduct = _db.OrderProduct.FirstOrDefault(op => op.OrderId == orderId && op.ProductId == productId);
+
+            orderProducts.ApplyTo(orderProduct);
+
+            _db.Save();
+        }
     }
 }
