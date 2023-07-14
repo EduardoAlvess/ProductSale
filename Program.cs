@@ -1,5 +1,6 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.EntityFrameworkCore;
 using ProductSale.App.Services.CustomerService;
 using ProductSale.App.Services.OrderService;
@@ -33,6 +34,7 @@ namespace ProductSale
 
             builder.Services.AddValidatorsFromAssemblyContaining<InputProductDto>();
             builder.Services.AddValidatorsFromAssemblyContaining<InputCustomerDto>();
+            builder.Services.AddValidatorsFromAssemblyContaining<JsonPatchDocument>();
 
             builder.Services.AddScoped<IOrderService, OrderService>();
             builder.Services.AddScoped<IProductService, ProductService>();
