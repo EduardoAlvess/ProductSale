@@ -90,6 +90,8 @@ namespace ProductSale.App.Services.OrderService
 
             orderProducts.ApplyTo(orderProduct);
 
+            RecalculateOrderProfitIfNeeded(orderId, orderProducts.Operations)
+
             _db.Save();
         }
 
@@ -132,6 +134,23 @@ namespace ProductSale.App.Services.OrderService
 
                     if (Convert.ToInt32(operation.value) > amountInStock)
                         throw new HigherThanStockException("The quantity of this product in order is higher than the amount in stock");
+                }
+            }
+        }
+
+        private void RecalculateOrderProfitIfNeeded(int orderId, List<Operation> operations)
+        {
+            foreach (var operation in operations)
+            {
+                if (operation.path.ToLower() == "/quantity")
+                {
+                    Order order = _db.Orders.Single(o => o.Id == orderId);
+
+                    var orderProducts = _db.OrderProduct.Where(op => op.OrderId == orderId).ToList();
+
+                    var newOrderProfit = CalculateOrderProfit(order.Amount, orderProducts);
+
+                    order.Profit = newOrderProfit;
                 }
             }
         }
