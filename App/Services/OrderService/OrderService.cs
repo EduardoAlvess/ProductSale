@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.JsonPatch.Operations;
 using ProductSale.Core.Exceptions;
+using ProductSale.Core.Exceptions.OrderExceptions;
 using ProductSale.Core.Models;
 using ProductSale.DTOs.OrderProducts;
 using ProductSale.DTOs.Orders;
@@ -34,31 +36,6 @@ namespace ProductSale.App.Services.OrderService
             _db.Save();
         }
 
-        private void RemoveStock(ICollection<OrderProduct> orderProducts)
-        {
-            foreach (var orderProduct in orderProducts)
-            {
-                var product = _db.Products.First(p => p.Id == orderProduct.ProductId);
-
-                product.AmountInStock -= orderProduct.Quantity;
-            }
-        }
-
-        private double CalculateOrderProfit(ICollection<OrderProduct> orderProducts)
-        {
-            double profit = 0;
-
-            foreach (var orderProduct in orderProducts)
-            {
-                var product = _db.Products.First(o => o.Id == orderProduct.ProductId);
-
-                double productProfit = (product.Value - product.ProductionCost) * orderProduct.Quantity;
-
-                profit += productProfit;
-            }
-
-            return profit;
-        }
 
         public OutputOrderDto GetOrderById(int id)
         {
@@ -108,11 +85,56 @@ namespace ProductSale.App.Services.OrderService
 
         public void UpdateOrderProducts(int orderId, int productId, JsonPatchDocument orderProducts)
         {
+            CheckProductQuantity(productId, orderProducts.Operations);
+
             OrderProduct orderProduct = _db.OrderProduct.FirstOrDefault(op => op.OrderId == orderId && op.ProductId == productId);
 
             orderProducts.ApplyTo(orderProduct);
 
             _db.Save();
+        }
+
+        private void RemoveStock(ICollection<OrderProduct> orderProducts)
+        {
+            foreach (var orderProduct in orderProducts)
+            {
+                var product = _db.Products.First(p => p.Id == orderProduct.ProductId);
+
+                product.AmountInStock -= orderProduct.Quantity;
+            }
+        }
+
+        private double CalculateOrderProfit(ICollection<OrderProduct> orderProducts)
+        {
+            double profit = 0;
+
+            foreach (var orderProduct in orderProducts)
+            {
+                var product = _db.Products.First(o => o.Id == orderProduct.ProductId);
+
+                double productProfit = (product.Value - product.ProductionCost) * orderProduct.Quantity;
+
+                profit += productProfit;
+            }
+
+            return profit;
+        }
+
+        private void CheckProductQuantity(int productId, List<Operation> operations)
+        {
+            foreach (var operation in operations)
+            {
+                if (operation.path.ToLower() == "/quantity")
+                {
+                    if (Convert.ToInt32(operation.value) < 0)
+                        throw new QuantityLowerThanZeroException("The quantity of this product in order can't be less than 0");
+
+                    int amountInStock = _db.Products.Single(p => p.Id == productId).AmountInStock;
+
+                    if (Convert.ToInt32(operation.value) > amountInStock)
+                        throw new HigherThanStockException("The quantity of this product in order is higher than the amount in stock");
+                }
+            }
         }
     }
 }
