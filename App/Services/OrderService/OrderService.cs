@@ -79,6 +79,8 @@ namespace ProductSale.App.Services.OrderService
 
             inputOrder.ApplyTo(order);
 
+            RecalculateOrderProfitIfNeeded(id, inputOrder.Operations);
+
             _db.Save();
         }
 
@@ -90,7 +92,7 @@ namespace ProductSale.App.Services.OrderService
 
             orderProducts.ApplyTo(orderProduct);
 
-            RecalculateOrderProfitIfNeeded(orderId, orderProducts.Operations)
+            RecalculateOrderProfitIfNeeded(orderId, orderProducts.Operations);
 
             _db.Save();
         }
@@ -142,7 +144,7 @@ namespace ProductSale.App.Services.OrderService
         {
             foreach (var operation in operations)
             {
-                if (operation.path.ToLower() == "/quantity")
+                if (operation.path.ToLower() == "/quantity" || operation.path.ToLower() == "/amount")
                 {
                     Order order = _db.Orders.Single(o => o.Id == orderId);
 
