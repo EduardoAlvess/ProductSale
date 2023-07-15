@@ -15,8 +15,8 @@ API to manage products and orders.
 If you whant to delete the infos of MySQL and Redis when shutdown containers, try 'docker-compose down -v'.
 
 ## Infos
-The API endpoints must be called using HTTPS.
-The requests body must be in JSON format.
+- The API endpoints must be called using HTTPS.
+- The requests body must be in JSON format.
 
 ## Documentation
 
