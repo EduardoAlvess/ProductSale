@@ -11,6 +11,13 @@ API to manage products and orders.
 3. Run the command 'docker container ls' and get the port of the container with the name 'product-sale-api'
 4. Access 'localhost:{container port}/swagger/index.html' in your browser to see the list of endpoints
 
+## Tips
+If you whant to delete the infos of MySQL and Redis when shutdown containers, try 'docker-compose down -v'.
+
+## Infos
+The API endpoints must be called using HTTPS.
+The requests body must be in JSON format.
+
 ## Documentation
 
 ### Products
@@ -107,7 +114,7 @@ API to manage products and orders.
         "register": "853.908.910-75"
     }
     ```
-    **Note:** The register must be a CPF or CNPJ
+    **Note:** The register must be a CPF or CNPJ in the valid format
 
 #### Get a customer by ID
 - URL: `/Customer/{customerId}`
@@ -164,6 +171,8 @@ API to manage products and orders.
 
 ### Orders
 #### Create a new order
+**An Order can't be created without a existing product or customer**
+
 - URL: `/Order`
 - Method: POST
 - Description: Create a new order
