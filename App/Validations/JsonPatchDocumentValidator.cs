@@ -11,8 +11,7 @@ namespace ProductSale.App.Validations
             {
                 c.RuleFor(x => x.op).NotEmpty()
                                         .WithMessage("Operation must not be null")
-                                    .Must(x => x == "add" || x == "remove" || x == "replace" || 
-                                               x == "move" || x == "copy" || x == "test")
+                                    .Must(x => x == "replace")
                                         .WithMessage("Operation not valid");
 
                 c.RuleFor(x => x.path).NotEmpty()

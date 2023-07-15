@@ -4,7 +4,10 @@ using ProductSale.Infra.Cache;
 using ProductSale.DTOs.Customers;
 using ProductSale.Core.Exceptions;
 using Microsoft.AspNetCore.JsonPatch;
+using System.Text.RegularExpressions;
 using ProductSale.App.Services.CustomerService;
+using Microsoft.AspNetCore.JsonPatch.Operations;
+using ProductSale.Core.Exceptions.CustomerExceptions;
 
 namespace ProductSale.App.Services.ProductService
 {
@@ -95,6 +98,9 @@ namespace ProductSale.App.Services.ProductService
 
         public void UpdateCustomer(int id, JsonPatchDocument inputCustomer)
         {
+            if (!IsRegisterValid(inputCustomer.Operations))
+                throw new RegisterInvalidException("Register invalid");
+
             Customer customer = _db.Customers.Single(p => p.Id == id);
 
             inputCustomer.ApplyTo(customer);
@@ -102,6 +108,22 @@ namespace ProductSale.App.Services.ProductService
             _cache.DeleteCache("customers");
 
             _db.Save();
+        }
+
+        private bool IsRegisterValid(List<Operation> operations)
+        {
+            foreach (var operation in operations)
+            {
+                if (operation.path.ToLower() == "/register")
+                {
+                    var pattern = "(?:(?:\\d{3}\\.){2}\\d{3}-\\d{2}|\\d{2}\\.\\d{3}\\.\\d{3}\\/\\d{4}-\\d{2})";
+
+                    return Regex.Match(operation.value.ToString(), pattern).Success ? true : false;
+
+                }
+            }
+
+            return true;
         }
     }
 }
