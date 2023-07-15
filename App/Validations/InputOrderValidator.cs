@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using ProductSale.Infra.DB;
 using ProductSale.DTOs.Orders;
+using ProductSale.Core.Exceptions;
 
 namespace ProductSale.App.Validations
 {
@@ -10,6 +11,8 @@ namespace ProductSale.App.Validations
 
         public InputOrderValidator(IDbContext db)
         {
+            _db = db;
+
             RuleFor(m => m.Stage)
                 .NotNull()
                     .WithMessage("Stage must not be null")
@@ -41,18 +44,42 @@ namespace ProductSale.App.Validations
 
         private bool DoesProductExist(int productId)
         {
-            var productsIds = _db.Products.Select(c => c.Id).ToList();
+            try
+            {
+                var productsIds = _db.Products.Select(c => c.Id).ToList();
 
-            return productsIds.Contains(productId) ? true : false;
+                return productsIds.Contains(productId) ? true : false;
+            }
+            catch(NullReferenceException ex)
+            {
+                throw new NotFoundException("Can't find a product with this id");
+            }
         }
 
         private bool DoesUserExist(int customerId)
         {
-            var customersIds = _db.Customers.Select(c => c.Id).ToList();
+            try
+            {
+                var customersIds = _db.Customers.Select(c => c.Id).ToList();
 
-            return customersIds.Contains(customerId) ? true : false;
+                return customersIds.Contains(customerId) ? true : false;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
 
-        private int GetAmountInStock(int productId) => _db.Products.First(p => p.Id == productId).AmountInStock;
+        private int GetAmountInStock(int productId)
+        {
+            try
+            {
+                return _db.Products.First(p => p.Id == productId).AmountInStock;
+            }
+            catch(Exception ex)
+            {
+                throw new NotFoundException("Can't find a product with this id");
+            }
+        }
     }
 }
