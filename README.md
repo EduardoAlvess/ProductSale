@@ -15,7 +15,6 @@ API to manage products and orders.
 
 ### Products
 #### Create a new product
-
 - URL: `/Product`
 - Method: POST
 - Description: Create a new product
@@ -31,14 +30,12 @@ API to manage products and orders.
     }
     ```
 #### Delete a product
-
 - URL: `/Product/{productId}`
 - Method: DELETE
 - Description: Delete a product
 - Path Parameter: `productId` (integer) - The identifier of the product to be deleted
 
 #### Get a product by ID
-
 - URL: `/Product/{productId}`
 - Method: GET
 - Description: Get product information by ID
@@ -55,7 +52,6 @@ API to manage products and orders.
     }
     ```
 #### Get all products
-
 - URL: `/Product`
 - Method: GET
 - Description: Get all products
@@ -81,7 +77,6 @@ API to manage products and orders.
     ```
 
 #### Update product information
-
 - URL: `/Product/{productId}`
 - Method: PATCH
 - Description: Update product information
@@ -94,6 +89,74 @@ API to manage products and orders.
             "op": "replace", 
             "path": "/name", 
             "value": "Diner table"
+        }
+    ]
+    ```
+### Customers
+#### Create a new customer
+- URL: `/Customer`
+- Method: POST
+- Description: Create a new customer
+- Request Body: JSON object representing the customer information
+  - Example:
+    ```json
+    {
+        "name": "Nick",
+        "phone": "51 986026879",
+        "register": "853.908.910-75"
+    }
+    ```
+    **Note:** The register must be a CPF or CNPJ
+
+#### Get a customer by ID
+- URL: `/Customer/{customerId}`
+- Method: GET
+- Description: Get customer information by ID
+- Path Parameter: `customerId` (integer) - The identifier of the customer
+- Response: JSON object representing the customer information
+  - Example:
+    ```json
+    {
+        "name": "Nick",
+        "phone": "51 986026879",
+        "register": "853.908.910-75"
+    }
+    ```
+
+#### Get all customers
+- URL: `/customer`
+- Method: GET
+- Description: Get all customers
+- Response: List of JSON objects representing the customers
+  - Example:
+    ```json
+    [
+        {
+            "name": "Pedro",
+            "phone": "51 986026879",
+            "register": "853.908.910-75"
+        },
+        {
+            "name": "Marcos",
+            "phone": "48 98385-1557",
+            "register": "12.345.678/0001-00"
+        }
+    ]
+    ```
+
+## Update customer information
+- URL: `/Customer/{customerId}`
+- Method: PATCH
+- Description: Update customer information
+- Path Parameter: `customerId` (integer) - The identifier of the customer to be updated
+- Request Body: JSON Patch document specifying the changes to be made to the customer information
+  - Example:
+    ```json
+    [
+        { 
+            "op": "replace", 
+            "path": "/name", 
+            "value": "Roberto" 
         }
     ]
     ```
