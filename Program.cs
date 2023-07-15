@@ -2,6 +2,7 @@ using FluentValidation;
 using ProductSale.Infra.DB;
 using ProductSale.DTOs.Orders;
 using ProductSale.Infra.Cache;
+using Microsoft.OpenApi.Models;
 using ProductSale.DTOs.Products;
 using ProductSale.DTOs.Customers;
 using FluentValidation.AspNetCore;
@@ -23,7 +24,17 @@ namespace ProductSale
                                              .AddFluentValidation();
             
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(x =>
+            {
+                x.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "ProductSale",
+                    Version = "v1"
+                });
+
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, "ProductSale.xml");
+                x.IncludeXmlComments(xmlPath);
+            });
 
             builder.Services.AddDbContext<IDbContext, DataContext>(dbContextOptions =>
             dbContextOptions.UseMySql("Server=db;Port=3306;Database=productsale;Uid=productsale;Pwd=productsale;", new MySqlServerVersion(new Version(5, 6, 0)))
