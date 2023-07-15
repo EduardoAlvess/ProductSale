@@ -92,6 +92,7 @@ API to manage products and orders.
         }
     ]
     ```
+
 ### Customers
 #### Create a new customer
 - URL: `/Customer`
@@ -124,7 +125,7 @@ API to manage products and orders.
     ```
 
 #### Get all customers
-- URL: `/customer`
+- URL: `/Customer`
 - Method: GET
 - Description: Get all customers
 - Response: List of JSON objects representing the customers
@@ -144,7 +145,7 @@ API to manage products and orders.
     ]
     ```
 
-## Update customer information
+#### Update customer information
 - URL: `/Customer/{customerId}`
 - Method: PATCH
 - Description: Update customer information
@@ -157,6 +158,84 @@ API to manage products and orders.
             "op": "replace", 
             "path": "/name", 
             "value": "Roberto" 
+        }
+    ]
+    ```
+
+### Orders
+#### Create a new order
+- URL: `/Order`
+- Method: POST
+- Description: Create a new order
+- Request Body: JSON object representing the order information
+  - Example:
+    ```json
+    {
+        "stage": 1,
+        "amount": "150",
+        "customerId": 1,
+        "orderProducts": [
+            {
+                "productId": 1,
+                "quantity": 10
+            }
+        ]
+    }
+    ```
+
+#### Get an order by ID
+- URL: `/Order/{orderId}`
+- Method: GET
+- Description: Get order information by ID
+- Path Parameter: `orderId` (integer) - The identifier of the order
+- Response: JSON object representing the order information
+  - Example:
+    ```json
+    {
+        "stage": 1,
+        "amount": "150",
+        "customerId": 1,
+        "orderProducts": [
+            {
+                "productId": 1,
+                "quantity": 10
+            }
+        ]
+    }
+    ```
+
+#### Update order information
+- URL: `/Order/{orderId}`
+- Method: PATCH
+- Description: Update order information
+- Path Parameter: `orderId` (integer) - The identifier of the order to be updated
+- Request Body: JSON Patch document specifying the changes to be made to the order information
+  - Example:
+    ```json
+    [
+        { 
+            "op": "replace", 
+            "path": "/amount", 
+            "value": 140 
+        }
+    ]
+    ```
+
+#### Update product information in an order
+- URL: `/Order/{orderId}/product/{productId}`
+- Method: PATCH
+- Description: Update information of a product in an order
+- Path Parameters:
+  - `orderId` (integer) - The identifier of the order
+  - `productId` (integer) - The identifier of the product in the order
+- Request Body: JSON Patch document specifying the changes to be made to the product information
+  - Example:
+    ```json
+    [
+        { 
+            "op": "replace", 
+            "path": "/quantity", 
+            "value": 1 
         }
     ]
     ```
