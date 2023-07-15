@@ -1,19 +1,22 @@
 ﻿using ProductSale.Infra.DB;
 using ProductSale.Core.Models;
+using ProductSale.Infra.Cache;
+using ProductSale.DTOs.Customers;
 using ProductSale.Core.Exceptions;
 using Microsoft.AspNetCore.JsonPatch;
 using ProductSale.App.Services.CustomerService;
-using ProductSale.DTOs.Customers;
 
 namespace ProductSale.App.Services.ProductService
 {
     public class CustomerService : ICustomerService
     {
         private readonly IDbContext _db;
+        private readonly ICacheProvider _cache;
 
-        public CustomerService(IDbContext dbContext)
+        public CustomerService(IDbContext dbContext, ICacheProvider cache)
         {
             _db = dbContext;
+            _cache = cache;
         }
 
         public void CreateCustomer(InputCustomerDto inputCustomerDto)
@@ -27,6 +30,8 @@ namespace ProductSale.App.Services.ProductService
 
             _db.Customers.Add(customer);
 
+            _cache.DeleteCache("customers");
+
             _db.Save();
         }
 
@@ -34,7 +39,17 @@ namespace ProductSale.App.Services.ProductService
         {
             List<OutputCustomerDto> customerDtos = new();
 
-            List<Customer> customers = _db.Customers.ToList();
+            List<Customer> customers;
+
+            var cacheData = _cache.Get<List<Customer>>("customers");
+
+            if (cacheData is not null && cacheData.Count() > 0)
+                customers = cacheData;
+            else
+            {
+                customers = _db.Customers.ToList();
+                _cache.Set("customers", customers);
+            }
 
             foreach(var customer in customers)
             {
@@ -83,6 +98,8 @@ namespace ProductSale.App.Services.ProductService
             Customer customer = _db.Customers.Single(p => p.Id == id);
 
             inputCustomer.ApplyTo(customer);
+
+            _cache.DeleteCache("customers");
 
             _db.Save();
         }

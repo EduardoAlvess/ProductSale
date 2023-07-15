@@ -1,6 +1,7 @@
-﻿using ProductSale.DTOs.Products;
-using ProductSale.Infra.DB;
+﻿using ProductSale.Infra.DB;
 using ProductSale.Core.Models;
+using ProductSale.Infra.Cache;
+using ProductSale.DTOs.Products;
 using ProductSale.Core.Exceptions;
 using Microsoft.AspNetCore.JsonPatch;
 
@@ -9,10 +10,12 @@ namespace ProductSale.App.Services.ProductService
     public class ProductService : IProductService
     {
         private readonly IDbContext _db;
+        private readonly ICacheProvider _cache;
 
-        public ProductService(IDbContext dbContext)
+        public ProductService(IDbContext dbContext, ICacheProvider cache)
         {
             _db = dbContext;
+            _cache = cache;
         }
 
         public void CreateProduct(InputProductDto inputProductDto)
@@ -28,6 +31,8 @@ namespace ProductSale.App.Services.ProductService
 
             _db.Products.Add(product);
 
+            _cache.DeleteCache("products");
+
             _db.Save();
         }
 
@@ -38,6 +43,8 @@ namespace ProductSale.App.Services.ProductService
                 Product product = _db.Products.Single(p => p.Id == id);
 
                 product.isDeleted = true;
+
+                _cache.DeleteCache("products");
 
                 _db.Save();
             }
@@ -51,7 +58,17 @@ namespace ProductSale.App.Services.ProductService
         {
             List<OutputProductDto> productDtos = new();
 
-            List<Product> products = _db.Products.ToList();
+            List<Product> products;
+
+            var cacheData = _cache.Get<List<Product>>("products");
+
+            if (cacheData is not null && cacheData.Count() > 0)
+                products = cacheData;
+            else
+            {
+                products = _db.Products.ToList();
+                _cache.Set("products", products);
+            }
 
             foreach(var product in products)
             {
@@ -98,6 +115,8 @@ namespace ProductSale.App.Services.ProductService
             Product product = _db.Products.Single(p => p.Id == id);
 
             inputProduct.ApplyTo(product);
+
+            _cache.DeleteCache("products");
 
             _db.Save();
         }

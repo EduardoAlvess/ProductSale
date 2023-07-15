@@ -1,14 +1,15 @@
 using FluentValidation;
+using ProductSale.Infra.DB;
+using ProductSale.DTOs.Orders;
+using ProductSale.Infra.Cache;
+using ProductSale.DTOs.Products;
+using ProductSale.DTOs.Customers;
 using FluentValidation.AspNetCore;
-using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.EntityFrameworkCore;
-using ProductSale.App.Services.CustomerService;
+using Microsoft.AspNetCore.JsonPatch;
 using ProductSale.App.Services.OrderService;
 using ProductSale.App.Services.ProductService;
-using ProductSale.DTOs.Customers;
-using ProductSale.DTOs.Orders;
-using ProductSale.DTOs.Products;
-using ProductSale.Infra.DB;
+using ProductSale.App.Services.CustomerService;
 
 namespace ProductSale
 {
@@ -18,13 +19,9 @@ namespace ProductSale
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-
-            builder.Services.AddControllers()
-                .AddNewtonsoftJson()
-                .AddFluentValidation();
+            builder.Services.AddControllers().AddNewtonsoftJson()
+                                             .AddFluentValidation();
             
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
@@ -39,12 +36,12 @@ namespace ProductSale
             builder.Services.AddValidatorsFromAssemblyContaining<JsonPatchDocument>();
 
             builder.Services.AddScoped<IOrderService, OrderService>();
+            builder.Services.AddScoped<ICacheProvider, CacheProvider>();
             builder.Services.AddScoped<IProductService, ProductService>();
             builder.Services.AddScoped<ICustomerService, CustomerService>();
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
@@ -52,7 +49,6 @@ namespace ProductSale
             }
 
             app.UseAuthorization();
-
 
             app.MapControllers();
 
