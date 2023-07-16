@@ -5,11 +5,10 @@ using ProductSale.DTOs.Customers;
 using ProductSale.Core.Exceptions;
 using Microsoft.AspNetCore.JsonPatch;
 using System.Text.RegularExpressions;
-using ProductSale.App.Services.CustomerService;
 using Microsoft.AspNetCore.JsonPatch.Operations;
 using ProductSale.Core.Exceptions.CustomerExceptions;
 
-namespace ProductSale.App.Services.ProductService
+namespace ProductSale.App.Services.CustomerService
 {
     public class CustomerService : ICustomerService
     {
