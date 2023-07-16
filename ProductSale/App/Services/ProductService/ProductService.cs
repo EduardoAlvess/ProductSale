@@ -112,13 +112,20 @@ namespace ProductSale.App.Services.ProductService
 
         public void UpdateProduct(int id, JsonPatchDocument inputProduct)
         {
-            Product product = _db.Products.Single(p => p.Id == id);
+            try
+            {
+                Product product = _db.Products.Single(p => p.Id == id);
 
-            inputProduct.ApplyTo(product);
+                inputProduct.ApplyTo(product);
 
-            _cache.DeleteCache("products");
+                _cache.DeleteCache("products");
 
-            _db.Save();
+                _db.Save();
+            }
+            catch(Exception e)
+            {
+                throw new NotFoundException("Product not found");
+            }
         }
     }
 }

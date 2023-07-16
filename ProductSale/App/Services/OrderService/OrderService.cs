@@ -75,17 +75,29 @@ namespace ProductSale.App.Services.OrderService
 
         public void UpdateOrder(int id, JsonPatchDocument inputOrder)
         {
-            Order order = _db.Orders.Single(p => p.Id == id);
+            try
+            {
+                Order order = _db.Orders.Single(p => p.Id == id);
 
-            inputOrder.ApplyTo(order);
+                inputOrder.ApplyTo(order);
 
-            RecalculateOrderProfitIfNeeded(id, inputOrder.Operations);
+                RecalculateOrderProfitIfNeeded(id, inputOrder.Operations);
 
-            _db.Save();
+                _db.Save();
+            }
+            catch(Exception e)
+            {
+                throw new NotFoundException("Order not found");
+            }
         }
 
         public void UpdateOrderProducts(int orderId, int productId, JsonPatchDocument orderProducts)
         {
+            if(_db.Orders.FirstOrDefault(o => o.Id == orderId) is null)
+                throw new NotFoundException("Order not found");
+            if (_db.Products.FirstOrDefault(p => p.Id == productId) is null)
+                throw new NotFoundException("Product not found");
+
             CheckProductQuantity(productId, orderProducts.Operations);
 
             OrderProduct orderProduct = _db.OrderProduct.FirstOrDefault(op => op.OrderId == orderId && op.ProductId == productId);
