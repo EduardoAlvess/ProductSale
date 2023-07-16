@@ -6,7 +6,7 @@ services:
     container_name: product-sale-api
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: ProductSale/Dockerfile
 
   db:
     image: mysql:latest
