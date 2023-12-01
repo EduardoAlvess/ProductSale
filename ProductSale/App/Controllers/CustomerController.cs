@@ -31,7 +31,7 @@ namespace ProductSale.App.Controllers
         /// </summary>
         /// <param name="customerId">Customer identifier</param>
         /// <returns>Customer infos</returns>
-        [HttpGet("{customerId}")]
+        [HttpGet("{customerIdTeste}")]
         public OutputCustomerDto GetById(int customerId) => _customerService.GetCustomerById(customerId);
 
         /// <summary>
