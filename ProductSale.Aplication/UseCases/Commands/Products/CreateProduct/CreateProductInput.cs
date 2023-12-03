@@ -1,4 +1,6 @@
-﻿namespace ProductSale.Aplication.UseCases.Commands.Products.CreateProduct
+﻿using ProductSale.Domain.Entities;
+
+namespace ProductSale.Aplication.UseCases.Commands.Products.CreateProduct
 {
     public record CreateProductInput
     {
@@ -15,6 +17,11 @@
             Description = description;
             AmountInStock = amountInStock;
             ProductionCost = productionCost;
+        }
+
+        public Product ToEntity()
+        {
+            return new Product(Name, Value, AmountInStock, Description, ProductionCost);
         }
     }
 }

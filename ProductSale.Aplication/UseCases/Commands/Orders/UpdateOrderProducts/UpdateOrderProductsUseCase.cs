@@ -14,10 +14,7 @@ namespace ProductSale.Aplication.UseCases.Commands.Orders.UpdateOrderProducts
 
         public Task<UseCaseResult<UpdateOrderProductsOutput>> Execute(UpdateOrderProductsInput input = null)
         {
-            var orderProducts = input.UpdateOrderProducts
-                                    .Select(op => 
-                                        new OrderProduct(op.OrderId, op.ProductId, op.Quantity))
-                                    .ToHashSet();
+            var orderProducts = input.ToEntity();
 
             List<OrderProduct> updatedOrderProducts = new();
 

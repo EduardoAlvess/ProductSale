@@ -1,5 +1,5 @@
-﻿using ProductSale.Domain.Entities;
-using ProductSale.Domain.Repositories;
+﻿using ProductSale.Domain.Repositories;
+using ProductSale.Domain.Entities;
 
 namespace ProductSale.Aplication.UseCases.Commands.Customers.CreateCustomer
 {
@@ -13,7 +13,7 @@ namespace ProductSale.Aplication.UseCases.Commands.Customers.CreateCustomer
 
         public Task<UseCaseResult<int>> Execute(CreateCustomerInput input = null)
         {
-            Customer customer = new(input.Name, input.Phone, input.Register);
+            Customer customer = input.ToEntity();
 
             int createdCustomerId = _customerRepository.CreateCustomer(customer);
 

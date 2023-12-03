@@ -1,4 +1,5 @@
-﻿using ProductSale.Domain.Enums;
+﻿using ProductSale.Domain.Entities;
+using ProductSale.Domain.Enums;
 
 namespace ProductSale.Aplication.UseCases.Commands.Orders.UpdateOrder
 {
@@ -15,6 +16,11 @@ namespace ProductSale.Aplication.UseCases.Commands.Orders.UpdateOrder
             Stage = stage;
             Amount = amount;
             Profit = profit;
+        }
+
+        public Order ToEntity()
+        {
+            return new Order(Stage, Amount, Profit);
         }
     }
 }

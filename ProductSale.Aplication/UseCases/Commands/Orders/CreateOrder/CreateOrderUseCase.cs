@@ -1,5 +1,5 @@
-﻿using ProductSale.Domain.Entities;
-using ProductSale.Domain.Repositories;
+﻿using ProductSale.Domain.Repositories;
+using ProductSale.Domain.Entities;
 
 namespace ProductSale.Aplication.UseCases.Commands.Orders.CreateOrder
 {
@@ -14,7 +14,7 @@ namespace ProductSale.Aplication.UseCases.Commands.Orders.CreateOrder
 
         public Task<UseCaseResult<int>> Execute(CreateOrderInput input = null)
         {
-            Order order = new(input.Stage, input.Amount, input.Profit, input.OrderProducts);
+            Order order = input.ToEntity();
 
             int orderCreatedId = _orderRepository.CreateOrder(order);
 

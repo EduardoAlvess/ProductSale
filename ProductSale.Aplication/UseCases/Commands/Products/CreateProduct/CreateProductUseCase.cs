@@ -1,5 +1,5 @@
-﻿using ProductSale.Domain.Entities;
-using ProductSale.Domain.Repositories;
+﻿using ProductSale.Domain.Repositories;
+using ProductSale.Domain.Entities;
 
 namespace ProductSale.Aplication.UseCases.Commands.Products.CreateProduct
 {
@@ -14,7 +14,7 @@ namespace ProductSale.Aplication.UseCases.Commands.Products.CreateProduct
 
         public Task<UseCaseResult<int>> Execute(CreateProductInput input = null)
         {
-            Product product = new(input.Name, input.Value, input.AmountInStock, input.Description, input.ProductionCost);
+            Product product = input.ToEntity();
 
             int createdProductId = _productRepository.CreateProduct(product);
 

@@ -1,4 +1,6 @@
-﻿namespace ProductSale.Aplication.UseCases.Commands.Products.UpdateProduct
+﻿using ProductSale.Domain.Entities;
+
+namespace ProductSale.Aplication.UseCases.Commands.Products.UpdateProduct
 {
     public record UpdateProductInput
     {
@@ -17,6 +19,11 @@
             AmountInStock = amountInStock;
             Description = description;
             ProductionCost = productionCost;
+        }
+
+        public Product ToEntity()
+        {
+            return new Product(Name, Value, AmountInStock, Description, ProductionCost);
         }
     }
 }

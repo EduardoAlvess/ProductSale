@@ -1,5 +1,5 @@
-﻿using ProductSale.Domain.Entities;
-using ProductSale.Domain.Repositories;
+﻿using ProductSale.Domain.Repositories;
+using ProductSale.Domain.Entities;
 
 namespace ProductSale.Aplication.UseCases.Commands.Customers.UpdateCustomer
 {
@@ -14,7 +14,7 @@ namespace ProductSale.Aplication.UseCases.Commands.Customers.UpdateCustomer
 
         public Task<UseCaseResult<UpdateCustomerOutput>> Execute(UpdateCustomerInput input = null)
         {
-            Customer customer = new(input.Name, input.Phone, input.Register);
+            Customer customer = input.ToEntity();
 
             Customer updatedCustomer = _customerRepository.UpdateCustomer(input.Id, customer);
 

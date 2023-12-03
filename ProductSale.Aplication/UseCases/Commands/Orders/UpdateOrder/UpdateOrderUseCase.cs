@@ -1,5 +1,5 @@
-﻿using ProductSale.Domain.Entities;
-using ProductSale.Domain.Repositories;
+﻿using ProductSale.Domain.Repositories;
+using ProductSale.Domain.Entities;
 
 namespace ProductSale.Aplication.UseCases.Commands.Orders.UpdateOrder
 {
@@ -14,7 +14,7 @@ namespace ProductSale.Aplication.UseCases.Commands.Orders.UpdateOrder
 
         public Task<UseCaseResult<UpdateOrderOutput>> Execute(UpdateOrderInput input = null)
         {
-            Order order = new(input.Stage, input.Amount, input.Profit);
+            Order order = input.ToEntity();
 
             Order updatedOrder = _orderRepository.UpdateOrder(input.Id, order);
 

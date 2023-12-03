@@ -1,4 +1,6 @@
-﻿namespace ProductSale.Aplication.UseCases.Commands.Orders.UpdateOrderProducts
+﻿using ProductSale.Domain.Entities;
+
+namespace ProductSale.Aplication.UseCases.Commands.Orders.UpdateOrderProducts
 {
     public record UpdateOrderProductsInput
     {
@@ -7,6 +9,13 @@
         public UpdateOrderProductsInput(HashSet<UpdateOrderProductInput> updateOrderProducts)
         {
             UpdateOrderProducts = updateOrderProducts;
+        }
+
+        public HashSet<OrderProduct> ToEntity()
+        {
+            return UpdateOrderProducts.Select(op => 
+                                            new OrderProduct(op.OrderId, op.ProductId, op.Quantity)
+                                           ).ToHashSet();
         }
     }
 

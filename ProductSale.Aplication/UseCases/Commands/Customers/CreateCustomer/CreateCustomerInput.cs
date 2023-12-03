@@ -1,4 +1,6 @@
-﻿namespace ProductSale.Aplication.UseCases.Commands.Customers.CreateCustomer
+﻿using ProductSale.Domain.Entities;
+
+namespace ProductSale.Aplication.UseCases.Commands.Customers.CreateCustomer
 {
     public record CreateCustomerInput
     {
@@ -11,6 +13,11 @@
             Name = name;
             Phone = phone;
             Register = register;
+        }
+
+        public Customer ToEntity()
+        {
+            return new Customer(Name, Phone, Register);
         }
     }
 }

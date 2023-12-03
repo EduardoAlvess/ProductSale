@@ -1,4 +1,6 @@
-﻿namespace ProductSale.Aplication.UseCases.Commands.Customers.UpdateCustomer
+﻿using ProductSale.Domain.Entities;
+
+namespace ProductSale.Aplication.UseCases.Commands.Customers.UpdateCustomer
 {
     public record UpdateCustomerInput
     {
@@ -13,6 +15,11 @@
             Name = name;
             Phone = phone;
             Register = register;
+        }
+
+        public Customer ToEntity()
+        {
+            return new Customer(Name, Phone, Register);
         }
     }
 }
