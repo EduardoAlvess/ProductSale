@@ -17,8 +17,8 @@ namespace ProductSale.Domain.Entities
         {
             Name = name;
             Value = value;
-            AmountInStock = amountInStock;
             Description = description;
+            AmountInStock = amountInStock;
             ProductionCost = productionCost;
         }
     }

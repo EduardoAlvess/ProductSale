@@ -9,7 +9,6 @@ namespace ProductSale.Domain.Entities
         public string Name { get; private set; }
         public string Phone { get; private set; }
         public string Register { get; private set; }
-        public ICollection<Order>? Orders { get; private set; }
 
         public Customer(string name, string phone, string register)
         {
