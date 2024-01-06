@@ -9,9 +9,8 @@ namespace ProductSale.Aplication.UseCases.Commands.Customers.UpdateCustomer
         public string Phone { get; private set; }
         public string Register { get; private set; }
 
-        public UpdateCustomerInput(int id, string name, string phone, string register)
+        public UpdateCustomerInput(string name, string phone, string register)
         {
-            Id = id;
             Name = name;
             Phone = phone;
             Register = register;
@@ -20,6 +19,11 @@ namespace ProductSale.Aplication.UseCases.Commands.Customers.UpdateCustomer
         public Customer ToEntity()
         {
             return new Customer(Name, Phone, Register);
+        }
+
+        public void SetId(int id)
+        {
+            Id = id;
         }
     }
 }

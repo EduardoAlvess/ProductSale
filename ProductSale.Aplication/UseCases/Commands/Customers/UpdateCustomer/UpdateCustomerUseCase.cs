@@ -14,6 +14,11 @@ namespace ProductSale.Aplication.UseCases.Commands.Customers.UpdateCustomer
 
         public Task<UseCaseResult<UpdateCustomerOutput>> Execute(UpdateCustomerInput input = null)
         {
+            if (input is null)
+            {
+                throw new ArgumentNullException("The sent informations are invalid", nameof(UpdateCustomerInput));
+            }
+
             Customer customer = input.ToEntity();
 
             Customer updatedCustomer = _customerRepository.UpdateCustomer(input.Id, customer);

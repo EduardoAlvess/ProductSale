@@ -18,10 +18,12 @@ namespace ProductSale.API.Controllers
             return Ok(output);
         }
 
-        [HttpPatch]
-        [Route("/UpdateCustomer")]
-        public async Task<IActionResult> Update([FromBody] UpdateCustomerInput updateCustomerInput, [FromServices] IUseCase<UpdateCustomerInput, UseCaseResult<UpdateCustomerOutput>> useCase)
+        [HttpPut]
+        [Route("/UpdateCustomer/{id}")]
+        public async Task<IActionResult> Update(int id, [FromBody] UpdateCustomerInput updateCustomerInput, [FromServices] IUseCase<UpdateCustomerInput, UseCaseResult<UpdateCustomerOutput>> useCase)
         {
+            updateCustomerInput.SetId(id);
+
             var output = await useCase.Execute(updateCustomerInput);
 
             return Ok(output);

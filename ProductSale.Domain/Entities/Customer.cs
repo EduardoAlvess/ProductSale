@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using ProductSale.Domain.Utils;
 
 namespace ProductSale.Domain.Entities
 {
@@ -19,9 +20,13 @@ namespace ProductSale.Domain.Entities
 
         public void Update(Customer customer)
         {
-            Name = !String.IsNullOrEmpty(customer.Name) ? customer.Name : Name;
-            Phone = !String.IsNullOrEmpty(customer.Phone) ? customer.Phone : Phone;
-            Register = !String.IsNullOrEmpty(customer.Register) ? customer.Register : Register;
+            Ensure.NotNull(customer.Name, "The customer name is required", nameof(customer.Name));
+            Ensure.NotNull(customer.Phone, "The customer phone is required", nameof(customer.Phone));
+            Ensure.NotNull(customer.Register, "The customer register is required", nameof(customer.Register));
+
+            Name = customer.Name;
+            Phone = customer.Phone;
+            Register = customer.Register;
         }
     }
 }
