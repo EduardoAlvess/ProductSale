@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using ProductSale.Aplication;
 using ProductSale.Infra;
 
@@ -15,7 +16,6 @@ namespace ProductSale.API
                             .AddInfrastructure();
 
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 

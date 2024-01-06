@@ -1,12 +1,22 @@
 ﻿using ProductSale.Domain.Entities;
+using ProductSale.Infra;
 
 namespace ProductSale.Domain.Repositories
 {
     public class CustomerRepository : ICustomerRepository
     {
+        private readonly IDbContext _context;
+
+        public CustomerRepository(IDbContext context)
+        {
+            _context = context;
+        }
+
         public int CreateCustomer(Customer customer)
         {
-            return 1;
+            _context.Customers.Add(customer);
+            _context.Save();
+            return customer.Id;
         }
 
         public List<Customer> GetAllCustomers()
