@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ProductSale.Domain.Utils;
+using System.ComponentModel.DataAnnotations;
 
 namespace ProductSale.Domain.Entities
 {
@@ -20,6 +21,29 @@ namespace ProductSale.Domain.Entities
             Description = description;
             AmountInStock = amountInStock;
             ProductionCost = productionCost;
+        }
+
+        public void Update(Product product)
+        {
+            Ensure.NotNull(product.Name, "The product name is required", nameof(product.Name));
+            Ensure.NotNull(product.Description, "The product description is required", nameof(product.Description));
+            Ensure.GreaterThanZero(product.Value, "The product value must be greather than 0", nameof(product.Value));
+            Ensure.GreaterThanOrEqualToZero(product.AmountInStock, "The product stock must be greather or equal than 0", nameof(product.AmountInStock));
+            Ensure.GreaterThanOrEqualToZero(product.ProductionCost, "The product production cost must be greather or equal than 0", nameof(product.ProductionCost));
+
+            Name = product.Name;
+            Value = product.Value;
+            Description = product.Description;
+            AmountInStock = product.AmountInStock;
+            ProductionCost = product.ProductionCost;
+        }
+
+        public void Delete()
+        {
+            if (!IsDeleted)
+            {
+                IsDeleted = true;
+            }
         }
     }
 }

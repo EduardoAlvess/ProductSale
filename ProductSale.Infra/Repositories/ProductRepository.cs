@@ -1,32 +1,55 @@
-﻿using ProductSale.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using ProductSale.Domain.Entities;
+using ProductSale.Infra;
 
 namespace ProductSale.Domain.Repositories
 {
     public class ProductRepository : IProductRepository
     {
+        private readonly IDbContext _context;
+
+        public ProductRepository(IDbContext context)
+        {
+            _context = context;
+        }
+
         public int CreateProduct(Product product)
         {
-            throw new NotImplementedException();
+            _context.Products.Add(product);
+
+            _context.Save();
+
+            return product.Id;
         }
 
         public void DeleteProduct(int id)
         {
-            throw new NotImplementedException();
+            var product = _context.Products.SingleOrDefault(x => x.Id == id);
+
+            product.Delete();
+
+            _context.Save();
         }
 
         public List<Product> GetAllProducts()
         {
-            throw new NotImplementedException();
+            return _context.Products.AsNoTracking().ToList();
         }
 
         public Product GetProductById(int id)
         {
-            throw new NotImplementedException();
+            return _context.Products.AsNoTracking().SingleOrDefault(x => x.Id == id);
         }
 
         public Product UpdateProduct(int id, Product product)
         {
-            throw new NotImplementedException();
+            var productToUpdate = _context.Products.SingleOrDefault(x => x.Id == id);
+
+            productToUpdate.Update(product);
+
+            _context.Save();
+
+            return productToUpdate;
         }
     }
 }

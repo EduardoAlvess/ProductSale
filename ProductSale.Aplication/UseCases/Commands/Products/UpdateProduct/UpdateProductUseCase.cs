@@ -14,6 +14,11 @@ namespace ProductSale.Aplication.UseCases.Commands.Products.UpdateProduct
 
         public Task<UseCaseResult<UpdateProductOutput>> Execute(UpdateProductInput input = null)
         {
+            if (input is null)
+            {
+                throw new ArgumentNullException("The sent informations are invalid", nameof(UpdateProductInput));
+            }
+
             Product product = input.ToEntity();
 
             Product productUpdated = _productRepository.UpdateProduct(input.Id, product);

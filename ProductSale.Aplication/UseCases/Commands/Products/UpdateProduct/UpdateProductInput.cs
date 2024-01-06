@@ -11,9 +11,8 @@ namespace ProductSale.Aplication.UseCases.Commands.Products.UpdateProduct
         public string Description { get; private set; }
         public double ProductionCost { get; private set; }
 
-        public UpdateProductInput(int id, string name, double value, int amountInStock, string description, double productionCost)
+        public UpdateProductInput(string name, double value, int amountInStock, string description, double productionCost)
         {
-            Id = id;
             Name = name;
             Value = value;
             AmountInStock = amountInStock;
@@ -24,6 +23,11 @@ namespace ProductSale.Aplication.UseCases.Commands.Products.UpdateProduct
         public Product ToEntity()
         {
             return new Product(Name, Value, AmountInStock, Description, ProductionCost);
+        }
+
+        public void SetId(int id)
+        {
+            Id = id;
         }
     }
 }
