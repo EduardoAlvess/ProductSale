@@ -1,4 +1,5 @@
-﻿using ProductSale.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using ProductSale.Domain.Entities;
 using ProductSale.Infra;
 
 namespace ProductSale.Domain.Repositories
@@ -21,17 +22,23 @@ namespace ProductSale.Domain.Repositories
 
         public List<Customer> GetAllCustomers()
         {
-            throw new NotImplementedException();
+            return _context.Customers.AsNoTracking().ToList();
         }
 
         public Customer GetCustomerById(int id)
         {
-            throw new NotImplementedException();
+            return _context.Customers.AsNoTracking().SingleOrDefault(x => x.Id == id);
         }
 
         public Customer UpdateCustomer(int id, Customer customer)
         {
-            throw new NotImplementedException();
+            var customerToUpdate = _context.Customers.SingleOrDefault(x => x.Id == id);
+
+            customerToUpdate.Update(customer);
+
+            _context.Save();
+
+            return customerToUpdate;
         }
     }
 }

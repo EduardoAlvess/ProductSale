@@ -16,5 +16,12 @@ namespace ProductSale.Domain.Entities
             Phone = phone;
             Register = register;
         }
+
+        public void Update(Customer customer)
+        {
+            Name = !String.IsNullOrEmpty(customer.Name) ? customer.Name : Name;
+            Phone = !String.IsNullOrEmpty(customer.Phone) ? customer.Phone : Phone;
+            Register = !String.IsNullOrEmpty(customer.Register) ? customer.Register : Register;
+        }
     }
 }
