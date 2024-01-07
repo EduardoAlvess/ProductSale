@@ -18,7 +18,7 @@ namespace ProductSale.API.Controllers
             return Ok(output);
         }
 
-        [HttpPatch]
+        [HttpPut]
         [Route("/UpdateProduct/{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateProductInput updateProductInput, [FromServices] IUseCase<UpdateProductInput, UseCaseResult<UpdateProductOutput>> useCase)
         {
