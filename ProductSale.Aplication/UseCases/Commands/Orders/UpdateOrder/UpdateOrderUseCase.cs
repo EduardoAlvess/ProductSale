@@ -14,6 +14,11 @@ namespace ProductSale.Aplication.UseCases.Commands.Orders.UpdateOrder
 
         public Task<UseCaseResult<UpdateOrderOutput>> Execute(UpdateOrderInput input = null)
         {
+            if (input is null)
+            {
+                throw new ArgumentNullException("The sent informations are invalid", nameof(UpdateOrderInput));
+            }
+
             Order order = input.ToEntity();
 
             Order updatedOrder = _orderRepository.UpdateOrder(input.Id, order);

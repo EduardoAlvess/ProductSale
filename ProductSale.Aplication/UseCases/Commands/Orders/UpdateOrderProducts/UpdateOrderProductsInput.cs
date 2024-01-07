@@ -14,7 +14,7 @@ namespace ProductSale.Aplication.UseCases.Commands.Orders.UpdateOrderProducts
         public HashSet<OrderProduct> ToEntity()
         {
             return UpdateOrderProducts.Select(op => 
-                                            new OrderProduct(op.OrderId, op.ProductId, op.Quantity)
+                                            new OrderProduct(op.ProductId, op.Quantity)
                                            ).ToHashSet();
         }
     }

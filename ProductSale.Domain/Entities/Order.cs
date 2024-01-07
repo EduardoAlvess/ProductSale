@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using ProductSale.Domain.Enums;
+using ProductSale.Domain.Utils;
 
 namespace ProductSale.Domain.Entities
 {
@@ -11,9 +12,9 @@ namespace ProductSale.Domain.Entities
         public double Amount { get; private set; }
         public double Profit { get; private set; }
         public int CustomerId { get; private set; }
-        public IReadOnlyList<OrderProduct> OrderProducts => _orderProducts.ToList();
 
-        private readonly HashSet<OrderProduct> _orderProducts = new();
+        public IReadOnlyList<OrderProduct> OrderProducts => _orderProducts;
+        private readonly List<OrderProduct> _orderProducts = new();
 
         public Order(Stage stage, double amount, double profit)
         {
@@ -22,13 +23,22 @@ namespace ProductSale.Domain.Entities
             Profit = profit;
         }
 
-        public Order(Stage stage, double amount, double profit, HashSet<OrderProduct> orderProducts)
+        public Order(Stage stage, double amount, double profit, int customerId, HashSet<OrderProduct> orderProducts)
         {
             Stage = stage;
             Amount = amount;
             Profit = profit;
+            CustomerId = customerId;
 
-            _orderProducts.UnionWith(orderProducts);
+            _orderProducts.AddRange(orderProducts);
+        }
+
+        public void Update(Order order)
+        {
+            Ensure.GreaterThanZero(order.Amount, "The order amount must be greather than 0", nameof(order.Amount));
+            
+            Amount = order.Amount;
+            Stage = order.Stage;
         }
     }
 }

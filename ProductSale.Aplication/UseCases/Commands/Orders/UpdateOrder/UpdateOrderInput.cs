@@ -10,9 +10,8 @@ namespace ProductSale.Aplication.UseCases.Commands.Orders.UpdateOrder
         public double Amount { get; private set; }
         public double Profit { get; private set; }
 
-        public UpdateOrderInput(int id, Stage stage, double amount, double profit)
+        public UpdateOrderInput(Stage stage, double amount, double profit)
         {
-            Id = id;
             Stage = stage;
             Amount = amount;
             Profit = profit;
@@ -21,6 +20,11 @@ namespace ProductSale.Aplication.UseCases.Commands.Orders.UpdateOrder
         public Order ToEntity()
         {
             return new Order(Stage, Amount, Profit);
+        }
+
+        public void SetId(int id)
+        {
+            Id = id;
         }
     }
 }

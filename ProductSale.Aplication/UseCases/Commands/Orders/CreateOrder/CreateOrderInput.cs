@@ -11,11 +11,10 @@ namespace ProductSale.Aplication.UseCases.Commands.Orders.CreateOrder
         public int CustomerId { get; private set; }
         public HashSet<OrderProductInput> OrderProducts { get; private set; }
 
-        public CreateOrderInput(Stage stage, double amount, double profit, int customerId, HashSet<OrderProductInput> orderProducts)
+        public CreateOrderInput(Stage stage, double amount, int customerId, HashSet<OrderProductInput> orderProducts)
         {
             Stage = stage;
             Amount = amount;
-            Profit = profit;
             CustomerId = customerId;
             OrderProducts = orderProducts;
         }
@@ -23,22 +22,25 @@ namespace ProductSale.Aplication.UseCases.Commands.Orders.CreateOrder
         public Order ToEntity()
         {
             var orderProducts = OrderProducts.Select(op =>
-                                    new OrderProduct(op.OrderId, op.ProductId, op.Quantity)
+                                    new OrderProduct(op.ProductId, op.Quantity)
                                     ).ToHashSet();
 
-            return new Order(Stage, Amount, Profit, orderProducts);
+            return new Order(Stage, Amount, Profit, CustomerId, orderProducts);
+        }
+
+        public void SetProfit(double profit)
+        {
+            Profit = profit;
         }
     }
 
     public record OrderProductInput
     {
-        public int OrderId { get; private set; }
         public int Quantity { get; private set; }
         public int ProductId { get; private set; }
 
-        public OrderProductInput(int orderId, int productId, int quantity)
+        public OrderProductInput(int productId, int quantity)
         {
-            OrderId = orderId;
             Quantity = quantity;
             ProductId = productId;
         }

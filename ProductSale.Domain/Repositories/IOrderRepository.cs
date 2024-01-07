@@ -8,5 +8,6 @@ namespace ProductSale.Domain.Repositories
         Order UpdateOrder(int id, Order order);
         int CreateOrder(Order order);
         Order GetOrderById(int id);
+        List<Order> GetAllOrders();
     }
 }
