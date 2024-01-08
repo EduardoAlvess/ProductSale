@@ -38,6 +38,11 @@ namespace ProductSale.Domain.Entities
             ProductionCost = product.ProductionCost;
         }
 
+        public void RemoveFromStock(int quantityToRemove)
+        {
+            AmountInStock -= quantityToRemove;
+        }
+
         public void Delete()
         {
             if (!IsDeleted)

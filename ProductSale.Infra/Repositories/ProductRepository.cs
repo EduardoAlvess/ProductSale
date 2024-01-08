@@ -31,6 +31,21 @@ namespace ProductSale.Domain.Repositories
             _context.Save();
         }
 
+        public List<Product> GetAllOrderProductsByOrderId(int orderId)
+        {
+            var orderProducts = _context.OrderProduct.Where(x => x.OrderId == orderId).ToList();
+
+            List<Product> products = new();
+
+            foreach (var orderProduct in orderProducts)
+            {
+                var product = _context.Products.SingleOrDefault(x => x.Id == orderProduct.ProductId);
+                products.Add(product);
+            }
+
+            return products;
+        }
+
         public List<Product> GetAllProducts()
         {
             return _context.Products.AsNoTracking().ToList();
@@ -38,7 +53,7 @@ namespace ProductSale.Domain.Repositories
 
         public Product GetProductById(int id)
         {
-            return _context.Products.AsNoTracking().SingleOrDefault(x => x.Id == id);
+            return _context.Products.SingleOrDefault(x => x.Id == id);
         }
 
         public Product UpdateProduct(int id, Product product)

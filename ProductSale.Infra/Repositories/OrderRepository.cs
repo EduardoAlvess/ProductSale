@@ -17,14 +17,17 @@ namespace ProductSale.Domain.Repositories
         {
             _context.Orders.Add(order);
 
-            _context.Save();
-
             return order.Id;
         }
 
         public List<Order> GetAllOrders()
         {
             return _context.Orders.AsNoTracking().ToList();
+        }
+
+        public List<Order> GetAllCustomerOrders(int customerId)
+        {
+            return _context.Orders.AsNoTracking().Where(x=> x.CustomerId == customerId).ToList();
         }
 
         public Order GetOrderById(int id)

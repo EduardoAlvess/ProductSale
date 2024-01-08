@@ -9,5 +9,6 @@ namespace ProductSale.Domain.Repositories
         List<Product> GetAllProducts();
         Product GetProductById(int id);
         void DeleteProduct(int id);
+        List<Product> GetAllOrderProductsByOrderId(int orderId);
     }
 }
