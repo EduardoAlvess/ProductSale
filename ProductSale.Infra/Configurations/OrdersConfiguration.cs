@@ -11,7 +11,7 @@ namespace ProductSale.Infra.Configurations
             builder.HasKey(o => o.Id);
 
             builder.Property(o => o.Stage).IsRequired();
-            builder.Property(o => o.Amount).IsRequired();
+            builder.Property(o => o.Value).IsRequired();
             builder.Property(o => o.Profit).IsRequired();
 
             builder.HasOne<Customer>()

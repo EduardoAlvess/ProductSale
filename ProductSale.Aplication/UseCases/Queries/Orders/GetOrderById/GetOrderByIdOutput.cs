@@ -7,7 +7,7 @@ namespace ProductSale.Aplication.UseCases.Queries.Orders.GetOrderById
     {
         public int Id { get; private set; }
         public Stage Stage { get; private set; }
-        public double Amount { get; private set; }
+        public double Value { get; private set; }
         public double Profit { get; private set; }
         public int CustomerId { get; private set; }
         public IReadOnlyList<OrderProduct> OrderProducts { get; private set; }
@@ -16,7 +16,7 @@ namespace ProductSale.Aplication.UseCases.Queries.Orders.GetOrderById
         {
             Id = order.Id;
             Stage = order.Stage;
-            Amount = order.Amount;
+            Value = order.Value;
             Profit = order.Profit;
             CustomerId = order.CustomerId;
             OrderProducts = order.OrderProducts;

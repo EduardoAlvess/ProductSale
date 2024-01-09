@@ -6,15 +6,15 @@ namespace ProductSale.Aplication.UseCases.Commands.Orders.CreateOrder
     public record CreateOrderInput
     {
         public Stage Stage { get; private set; }
-        public double Amount { get; private set; }
+        public double Value { get; private set; }
         public double Profit { get; private set; }
         public int CustomerId { get; private set; }
         public HashSet<OrderProductInput> OrderProducts { get; private set; }
 
-        public CreateOrderInput(Stage stage, double amount, int customerId, HashSet<OrderProductInput> orderProducts)
+        public CreateOrderInput(Stage stage, double value, int customerId, HashSet<OrderProductInput> orderProducts)
         {
             Stage = stage;
-            Amount = amount;
+            Value = value;
             CustomerId = customerId;
             OrderProducts = orderProducts;
         }
@@ -25,12 +25,7 @@ namespace ProductSale.Aplication.UseCases.Commands.Orders.CreateOrder
                                     new OrderProduct(op.ProductId, op.Quantity)
                                     ).ToHashSet();
 
-            return new Order(Stage, Amount, Profit, CustomerId, orderProducts);
-        }
-
-        public void SetProfit(double profit)
-        {
-            Profit = profit;
+            return new Order(Stage, Value, Profit, CustomerId, orderProducts);
         }
     }
 

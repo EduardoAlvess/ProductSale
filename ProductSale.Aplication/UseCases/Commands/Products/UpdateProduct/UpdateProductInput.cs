@@ -7,7 +7,7 @@ namespace ProductSale.Aplication.UseCases.Commands.Products.UpdateProduct
         public int Id { get; private set; }
         public string Name { get; private set; }
         public double Value { get; private set; }
-        public int AmountInStock { get; private set; }
+        public int ValueInStock { get; private set; }
         public string Description { get; private set; }
         public double ProductionCost { get; private set; }
 
@@ -15,14 +15,14 @@ namespace ProductSale.Aplication.UseCases.Commands.Products.UpdateProduct
         {
             Name = name;
             Value = value;
-            AmountInStock = amountInStock;
+            ValueInStock = amountInStock;
             Description = description;
             ProductionCost = productionCost;
         }
 
         public Product ToEntity()
         {
-            return new Product(Name, Value, AmountInStock, Description, ProductionCost);
+            return new Product(Name, Value, ValueInStock, Description, ProductionCost);
         }
 
         public void SetId(int id)

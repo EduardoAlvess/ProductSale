@@ -27,7 +27,7 @@ namespace ProductSale.Aplication.UseCases.Queries.Products.GetAllProducts
         public string Name { get; private set; }
         public double Value { get; private set; }
         public bool IsDeleted { get; private set; }
-        public int AmountInStock { get; private set; }
+        public int ValueInStock { get; private set; }
         public string Description { get; private set; }
         public double ProductionCost { get; private set; }
 
@@ -38,7 +38,7 @@ namespace ProductSale.Aplication.UseCases.Queries.Products.GetAllProducts
             Value = value;
             IsDeleted = isDeleted;
             Description = description;
-            AmountInStock = amountInStock;
+            ValueInStock = amountInStock;
             ProductionCost = productionCost;
         }
     }

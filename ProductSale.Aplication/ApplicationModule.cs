@@ -1,18 +1,19 @@
-﻿using ProductSale.Aplication.UseCases.Commands.Orders.UpdateOrderProducts;
-using ProductSale.Aplication.UseCases.Queries.Customers.GetAllCustomers;
-using ProductSale.Aplication.UseCases.Queries.Customers.GetCustomerById;
-using ProductSale.Aplication.UseCases.Commands.Customers.UpdateCustomer;
+﻿using Microsoft.Extensions.DependencyInjection;
+using ProductSale.Application.Services;
+using ProductSale.Aplication.UseCases;
 using ProductSale.Aplication.UseCases.Commands.Customers.CreateCustomer;
+using ProductSale.Aplication.UseCases.Commands.Customers.UpdateCustomer;
+using ProductSale.Aplication.UseCases.Commands.Orders.CreateOrder;
+using ProductSale.Aplication.UseCases.Commands.Orders.UpdateOrder;
+using ProductSale.Aplication.UseCases.Commands.Orders.UpdateOrderProducts;
 using ProductSale.Aplication.UseCases.Commands.Products.CreateProduct;
 using ProductSale.Aplication.UseCases.Commands.Products.DeleteProduct;
 using ProductSale.Aplication.UseCases.Commands.Products.UpdateProduct;
+using ProductSale.Aplication.UseCases.Queries.Customers.GetAllCustomers;
+using ProductSale.Aplication.UseCases.Queries.Customers.GetCustomerById;
+using ProductSale.Aplication.UseCases.Queries.Orders.GetOrderById;
 using ProductSale.Aplication.UseCases.Queries.Products.GetAllProducts;
 using ProductSale.Aplication.UseCases.Queries.Products.GetProductById;
-using ProductSale.Aplication.UseCases.Commands.Orders.CreateOrder;
-using ProductSale.Aplication.UseCases.Commands.Orders.UpdateOrder;
-using ProductSale.Aplication.UseCases.Queries.Orders.GetOrderById;
-using Microsoft.Extensions.DependencyInjection;
-using ProductSale.Aplication.UseCases;
 
 namespace ProductSale.Aplication
 {
@@ -20,7 +21,8 @@ namespace ProductSale.Aplication
     {
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
-            services.AddUseCases();
+            services.AddUseCases()
+                    .AddServices();
 
             return services;
         }
@@ -47,6 +49,13 @@ namespace ProductSale.Aplication
 
             services.AddScoped<IUseCase<NoInput, UseCaseResult<GetAllProductsOutput>>, GetAllProductsUseCase>();
             services.AddScoped<IUseCase<int, UseCaseResult<GetProductByIdOutput>>, GetProductByIdUseCase>();
+
+            return services;
+        }
+
+        private static IServiceCollection AddServices(this IServiceCollection services)
+        {
+            services.AddScoped<IOrderService, OrderService>();
 
             return services;
         }

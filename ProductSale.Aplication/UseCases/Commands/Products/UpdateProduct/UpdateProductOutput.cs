@@ -8,7 +8,7 @@ namespace ProductSale.Aplication.UseCases.Commands.Products.UpdateProduct
         public string Name { get; private set; }
         public double Value { get; private set; }
         public bool IsDeleted { get; private set; }
-        public int AmountInStock { get; private set; }
+        public int ValueInStock { get; private set; }
         public string Description { get; private set; }
         public double ProductionCost { get; private set; }
 
@@ -19,7 +19,7 @@ namespace ProductSale.Aplication.UseCases.Commands.Products.UpdateProduct
             Value = product.Value;
             IsDeleted = product.IsDeleted;
             Description = product.Description;
-            AmountInStock = product.AmountInStock;
+            ValueInStock = product.AmountInStock;
             ProductionCost = product.ProductionCost;
         }
     }

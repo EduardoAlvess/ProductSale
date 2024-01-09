@@ -15,7 +15,7 @@ namespace ProductSale.Infra.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.2")
+                .HasAnnotation("ProductVersion", "7.0.14")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("ProductSale.Domain.Entities.Customer", b =>
@@ -49,9 +49,6 @@ namespace ProductSale.Infra.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<double>("Amount")
-                        .HasColumnType("double");
-
                     b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
@@ -60,6 +57,9 @@ namespace ProductSale.Infra.Migrations
 
                     b.Property<int>("Stage")
                         .HasColumnType("int");
+
+                    b.Property<double>("Value")
+                        .HasColumnType("double");
 
                     b.HasKey("Id");
 

@@ -32,18 +32,14 @@ namespace ProductSale.Domain.Repositories
 
         public Order GetOrderById(int id)
         {
-            return _context.Orders.AsNoTracking().SingleOrDefault(x => x.Id == id);
+            return _context.Orders.Include(x => x.OrderProducts).SingleOrDefault(x => x.Id == id);
         }
 
-        public Order UpdateOrder(int id, Order order)
+        public Order UpdateOrder(Order order)
         {
-            var orderToUpdate = _context.Orders.SingleOrDefault(x => x.Id == id);
+            _context.Orders.Update(order);
 
-            orderToUpdate.Update(order);
-
-            _context.Save();
-
-            return orderToUpdate;
+            return order;
         }
 
         public OrderProduct UpdateOrderProduct(OrderProduct orderProduct)

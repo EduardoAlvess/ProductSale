@@ -1,14 +1,17 @@
-﻿using ProductSale.Domain.Repositories;
+﻿using ProductSale.Application.Services;
 using ProductSale.Domain.Entities;
+using ProductSale.Domain.Repositories;
 
 namespace ProductSale.Aplication.UseCases.Commands.Orders.CreateOrder
 {
     public sealed class CreateOrderUseCase : IUseCase<CreateOrderInput, UseCaseResult<int>>
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IOrderService _orderService;
 
-        public CreateOrderUseCase(IUnitOfWork unitOfWork)
+        public CreateOrderUseCase(IUnitOfWork unitOfWork, IOrderService orderService)
         {
+            _orderService = orderService;
             _unitOfWork = unitOfWork;
         }
 
@@ -19,9 +22,9 @@ namespace ProductSale.Aplication.UseCases.Commands.Orders.CreateOrder
                 throw new ArgumentNullException("The sent informations are invalid", nameof(CreateOrderInput));
             }
 
-            input.SetProfit(CalculateProfit(input));
-
             Order order = input.ToEntity();
+
+            order.SetProfit(_orderService.CalculateProfit(input));
 
             _unitOfWork.OrderRepository.CreateOrder(order);
 
@@ -43,24 +46,6 @@ namespace ProductSale.Aplication.UseCases.Commands.Orders.CreateOrder
             var createdOrderId = _unitOfWork.OrderRepository.GetAllCustomerOrders(order.CustomerId).Last().Id;
 
             return Task.FromResult(new UseCaseResult<int>(createdOrderId, true, "Order created"));
-        }
-
-        private double CalculateProfit(CreateOrderInput order)
-        {
-            double totalProductsProdCost = 0;
-
-            foreach (var orderProduct in order.OrderProducts)
-            {
-                var productProdCost = _unitOfWork.ProductRepository.GetProductById(orderProduct.ProductId).ProductionCost;
-
-                var totalCost = orderProduct.Quantity * productProdCost;
-
-                totalProductsProdCost += totalCost;
-            }
-
-            double profit = order.Amount - totalProductsProdCost;
-
-            return profit;
         }
     }
 }

@@ -43,7 +43,7 @@ namespace ProductSale.Infra.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Value = table.Column<double>(type: "double", nullable: false),
                     IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    AmountInStock = table.Column<int>(type: "int", nullable: false),
+                    ValueInStock = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "varchar(10000)", maxLength: 10000, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ProductionCost = table.Column<double>(type: "double", nullable: false)
@@ -61,7 +61,7 @@ namespace ProductSale.Infra.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Stage = table.Column<int>(type: "int", nullable: false),
-                    Amount = table.Column<double>(type: "double", nullable: false),
+                    Value = table.Column<double>(type: "double", nullable: false),
                     Profit = table.Column<double>(type: "double", nullable: false),
                     CustomerId = table.Column<int>(type: "int", nullable: false)
                 },

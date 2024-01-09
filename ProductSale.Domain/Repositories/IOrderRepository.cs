@@ -6,7 +6,7 @@ namespace ProductSale.Domain.Repositories
     {
         OrderProduct UpdateOrderProduct(OrderProduct orderProduct);
         List<Order> GetAllCustomerOrders(int customerId);
-        Order UpdateOrder(int id, Order order);
+        Order UpdateOrder(Order order);
         int CreateOrder(Order order);
         Order GetOrderById(int id);
         List<Order> GetAllOrders();

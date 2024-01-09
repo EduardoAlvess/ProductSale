@@ -1,15 +1,18 @@
 ﻿using ProductSale.Domain.Repositories;
 using ProductSale.Domain.Entities;
+using ProductSale.Application.Services;
 
 namespace ProductSale.Aplication.UseCases.Commands.Orders.UpdateOrder
 {
     public sealed class UpdateOrderUseCase : IUseCase<UpdateOrderInput, UseCaseResult<UpdateOrderOutput>>
     {
-        private readonly IOrderRepository _orderRepository;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IOrderService _orderService;
 
-        public UpdateOrderUseCase(IOrderRepository orderRepository)
+        public UpdateOrderUseCase(IUnitOfWork unitOfWork, IOrderService orderService)
         {
-            _orderRepository = orderRepository;
+            _orderService = orderService;
+            _unitOfWork = unitOfWork;
         }
 
         public Task<UseCaseResult<UpdateOrderOutput>> Execute(UpdateOrderInput input = null)
@@ -19,9 +22,21 @@ namespace ProductSale.Aplication.UseCases.Commands.Orders.UpdateOrder
                 throw new ArgumentNullException("The sent informations are invalid", nameof(UpdateOrderInput));
             }
 
-            Order order = input.ToEntity();
+            var order = _unitOfWork.OrderRepository.GetOrderById(input.Id);
 
-            Order updatedOrder = _orderRepository.UpdateOrder(input.Id, order);
+            if (order.Value != input.Value)
+            {
+                var profit = _orderService.RecalculateProfit(input.Value, order);
+                order.Update(input.Value, profit, input.Stage);
+            }
+            else
+            {
+                order.Update(order.Value, order.Profit, input.Stage);
+            }
+
+            Order updatedOrder = _unitOfWork.OrderRepository.UpdateOrder(order);
+
+            _unitOfWork.SaveChanges();
 
             var output = new UpdateOrderOutput(updatedOrder);
 

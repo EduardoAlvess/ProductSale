@@ -9,36 +9,43 @@ namespace ProductSale.Domain.Entities
         [Key]
         public int Id { get; private set; }
         public Stage Stage { get; private set; }
-        public double Amount { get; private set; }
+        public double Value { get; private set; }
         public double Profit { get; private set; }
         public int CustomerId { get; private set; }
 
         public IReadOnlyList<OrderProduct> OrderProducts => _orderProducts;
         private readonly List<OrderProduct> _orderProducts = new();
 
-        public Order(Stage stage, double amount, double profit)
+        public Order(Stage stage, double value, double profit)
         {
             Stage = stage;
-            Amount = amount;
+            Value = value;
             Profit = profit;
         }
 
-        public Order(Stage stage, double amount, double profit, int customerId, HashSet<OrderProduct> orderProducts)
+        public Order(Stage stage, double value, double profit, int customerId, HashSet<OrderProduct> orderProducts)
         {
             Stage = stage;
-            Amount = amount;
+            Value = value;
             Profit = profit;
             CustomerId = customerId;
 
             _orderProducts.AddRange(orderProducts);
         }
 
-        public void Update(Order order)
+        public void Update(double value, double profit, Stage stage)
         {
-            Ensure.GreaterThanZero(order.Amount, "The order amount must be greather than 0", nameof(order.Amount));
-            
-            Amount = order.Amount;
-            Stage = order.Stage;
+            Ensure.GreaterThanZero(value, "The order value must be greather than 0", nameof(value));
+            Ensure.GreaterThanOrEqualToZero(profit, "The order profit must be greather than or equal to 0", nameof(profit));
+
+            Value = value;
+            Profit = profit;
+            Stage = stage;
+        }
+
+        public void SetProfit(double profit)
+        {
+            Profit = profit;
         }
     }
 }
